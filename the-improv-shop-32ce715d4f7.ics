@@ -1,0 +1,471 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//The Improv Shop - ECPv6.15.11//NONSGML v1.0//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:The Improv Shop
+X-ORIGINAL-URL:https://theimprovshop.com
+X-WR-CALDESC:Events for The Improv Shop
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-Robots-Tag:noindex
+X-PUBLISHED-TTL:PT1H
+BEGIN:VTIMEZONE
+TZID:America/Chicago
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:20240310T080000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:20241103T070000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:20250309T080000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:20251102T070000
+END:STANDARD
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0600
+TZOFFSETTO:-0500
+TZNAME:CDT
+DTSTART:20260308T080000
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0600
+TZNAME:CST
+DTSTART:20261101T070000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20251113
+DTEND;VALUE=DATE:20251116
+DTSTAMP:20251112T103523
+CREATED:20251111T135326Z
+LAST-MODIFIED:20251111T135523Z
+UID:51590-1762992000-1763251199@theimprovshop.com
+SUMMARY:Flyover Comedy Festival
+DESCRIPTION:Flyover returns to The Improv Shop this Thursday through Saturday with a variety of show options! \nVisit the festival’s website for tickets and information: https://www.flyovercomedyfest.com/
+URL:https://theimprovshop.com/show/flyover-comedy-festival/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Festival
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/wp-content/uploads/2025/11/flyover-2026-copy.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251117T190000
+DTEND;TZID=America/Chicago:20251117T203000
+DTSTAMP:20251112T103523
+CREATED:20250903T151621Z
+LAST-MODIFIED:20251029T161918Z
+UID:49970-1763406000-1763411400@theimprovshop.com
+SUMMARY:Teams Level 2 Student Showcase
+DESCRIPTION:Join our Teams Level 2 students as they showcase their talents every Monday at 7pm in mainstage! \nThis is a free event!
+URL:https://theimprovshop.com/show/teams-level-2-student-showcase-16/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Student Showcase
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251117T190000
+DTEND;TZID=America/Chicago:20251117T203000
+DTSTAMP:20251112T103523
+CREATED:20251029T163635Z
+LAST-MODIFIED:20251029T164234Z
+UID:51349-1763406000-1763411400@theimprovshop.com
+SUMMARY:Teams Level 1 Student Showcase
+DESCRIPTION:Join our Teams Level 1 students every Monday at 7pm on sidestage as they showcase their talents over the 8-weeks of their class. \nThis is a free event!
+URL:https://theimprovshop.com/show/teams-level-1-student-showcase/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Student Showcase
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251120T190000
+DTEND;TZID=America/Chicago:20251120T203000
+DTSTAMP:20251112T103523
+CREATED:20250901T144046Z
+LAST-MODIFIED:20250929T153841Z
+UID:49867-1763665200-1763670600@theimprovshop.com
+SUMMARY:House Team Night
+DESCRIPTION:NEW NIGHT\, NEW TIME! House Team Night now lives on Thursdays at 7pm! \nThree Improv Shop House Teams take the stage! Each week you’ll see different styles and flavors of longform improv\, all in a nice little three set package. \nThis week’s teams:\nLover Boy\, Whippersnapper\, Small Uncle
+URL:https://theimprovshop.com/show/house-team-night-21/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/02/SIGNAGE-houseteamnight-696x1080v2.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251120T190000
+DTEND;TZID=America/Chicago:20251120T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T140742Z
+LAST-MODIFIED:20251008T140742Z
+UID:50896-1763665200-1763670600@theimprovshop.com
+SUMMARY:The Menagerie
+DESCRIPTION:Come one! Come all! and catch three local improv teams as they perform in front of a live audience. Just like a zoo!…except there’s no cages or fish tanks.
+URL:https://theimprovshop.com/show/the-menagerie-2/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/06/826334f4-6984-43cf-a01c-d2136cec877d.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251121T190000
+DTEND;TZID=America/Chicago:20251121T203000
+DTSTAMP:20251112T103523
+CREATED:20250919T141544Z
+LAST-MODIFIED:20250919T141544Z
+UID:50378-1763751600-1763757000@theimprovshop.com
+SUMMARY:Base Reality Check - Endings
+DESCRIPTION:Endings is a high-fantasy\, high-tech improvised TTRPG anthology using the Daggerheart system. Each show is a standalone story\, so jump in wherever. \nThe world has broken. Magic runs in the wiring; code remembers old prayers. In abandoned junkyards\, orphaned machines stir with an ominous hum. Join our players in a world fundamentally changed as they unravel the mystery of their new reality.
+URL:https://theimprovshop.com/show/base-reality-check-endings-3/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/09/BRC-Endings-updated-date.png/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251121T190000
+DTEND;TZID=America/Chicago:20251121T203000
+DTSTAMP:20251112T103523
+CREATED:20251027T163650Z
+LAST-MODIFIED:20251106T150355Z
+UID:51269-1763751600-1763757000@theimprovshop.com
+SUMMARY:THE ASTERISK*
+DESCRIPTION:In this show\, we give the suggestion to YOU. Every show has a theme\, and every audience** has stories to share. With your help\, St. Louis’s best improv comics take a simple idea*** and dig into the juicy details. The result: scenes made up in real time\, powered by your footnotes\, omission\, and disclaimers. Subtext has never been so fun! \n*every Friday at 7pm\n**you\, we hope\n***that night’s theme \nThis week’s theme: Family Gatherings\nYou know that moment when your old-ass uncle says something and you could swear everyone heard the record scratch? Yeah\, that. We want those stories. Come tell us yours.
+URL:https://theimprovshop.com/show/the-asterisk/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Holiday,Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/wp-content/uploads/2025/10/Asterisk-Holidays-Website.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251121T210000
+DTEND;TZID=America/Chicago:20251121T223000
+DTSTAMP:20251112T103523
+CREATED:20250910T190225Z
+LAST-MODIFIED:20250929T153931Z
+UID:50253-1763758800-1763764200@theimprovshop.com
+SUMMARY:Cagematch Tournament
+DESCRIPTION:Cagematch\, which was originally created by Kevin Mullaney (former Artistic Director at the UCB Theater)\, moves into TOURNAMENT MODE! Cagematch is a friendly\, competitive longform improv show where the audience votes for their favorite team. The winner moves on to compete in the next round of this single elimination tournament. \nROUND 1\, MATCH 8\n#7 Haute Mess Express vs. #10 Queery
+URL:https://theimprovshop.com/show/cagematch-tournament-9/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Competition,Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-Cagematch-tourney-2025-696x1080-1.jpg
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251121T210000
+DTEND;TZID=America/Chicago:20251121T223000
+DTSTAMP:20251112T103523
+CREATED:20251008T143445Z
+LAST-MODIFIED:20251008T143445Z
+UID:50912-1763758800-1763764200@theimprovshop.com
+SUMMARY:Rhyme and Reason
+DESCRIPTION:Come see 3 musical improv acts!\n\n\n===============================================================\n\nDo you want to be added to the 2zin Tarandon email list to get updates on our upcoming shows and projects? \nClick this link! 
+URL:https://theimprovshop.com/show/rhyme-and-reason-4/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Musical Improv
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/02/Ryhme-1.png/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251122T190000
+DTEND;TZID=America/Chicago:20251122T203000
+DTSTAMP:20251112T103523
+CREATED:20250929T153610Z
+LAST-MODIFIED:20250929T153610Z
+UID:50729-1763838000-1763843400@theimprovshop.com
+SUMMARY:The One Four Fives present an Improvised Musical!
+DESCRIPTION:It’s the opening (and err closing) night of a Broadway-style musical\, completely made up on the spot. Based on an audience suggestion\, The One Four Fives will create a one-of-a-kind musical filled with drama\, comedy\, and songs you’ll be humming all the way home. \nSearching for musicals in St. Louis? A night of comedy in St. Louis? Or a unique St. Louis theater experience? Look no further—this show delivers it all. Every performance is a brand new creation—the songs\, the story\, the music\, and the choreography are all made up on the spot. \nGet your tickets now! Don’t miss your chance to experience the magic of live theater\, comedy\, and music—all in one show. \nAbout: The One Four Fives have been creating improvised musicals in St. Louis for over 6 years. The cast consists of Darrell Barber\, Anna Agniel\, Boo Kersting\, Andy Sloey\, Jenn Korman\, Nathan Maul\, Ryan Myers\, and Ashley Rube. The group was named a finalist in St. Louis Magazine’s A List for Favorite Live Theater Group in 2023 and 2024. \nWhat People are Saying:\n“Comedy and theater fans who enjoy laughs\, improv and a good melody you can tap your toes to should really catch one of the monthly performances of The One Four Fives\, an improvised musical from St. Louis’s Improv Shop.” – Tina Farmer\, Riverfront Times \n“The reason for their longevity is clear …they have mastered the tricks of their trade.” -Gerry Kowarsky\, Two on the Aisle \n“I am in awe of how cohesive this group is. Every member contributes a unique take on whatever the prompt is – and I was doubled over laughing the whole time. You will laugh and relate to these amazing people. I highly recommend.” – Jessi S.\, audience member
+URL:https://theimprovshop.com/show/the-one-four-fives-present-an-improvised-musical-4/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Musical Improv
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/02/One-Four-Fives-Improvised-Musical-2.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251122T190000
+DTEND;TZID=America/Chicago:20251122T213000
+DTSTAMP:20251112T103523
+CREATED:20250905T230114Z
+LAST-MODIFIED:20251020T134557Z
+UID:50032-1763838000-1763847000@theimprovshop.com
+SUMMARY:Whose Show Is It Anyway?
+DESCRIPTION:Rated TV-MA. The latest IS original series–and your next binge watch–is now streaming from side stage! Join The Body as they “Netflix and chill” with featured team Whatever This Is to bring you a high-energy 90 minutes of longform improv mixed with short-form games. Viewer discretion is advised.
+URL:https://theimprovshop.com/show/whose-show-is-it-anyway-4/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2024/08/Whose-Show-logo-v1.png/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251122T210000
+DTEND;TZID=America/Chicago:20251122T223000
+DTSTAMP:20251112T103523
+CREATED:20251008T140014Z
+LAST-MODIFIED:20251008T140014Z
+UID:50892-1763845200-1763850600@theimprovshop.com
+SUMMARY:Shirts and Skins with Comic Strip and Friends
+DESCRIPTION:The least clothed improv team in St. Louis is back and this time\, they’ve brought friends. A (regular\, non-stripping) guest team will open the show with 20-25 minutes of (regular\, non-stripping) improv. Then\, Comic Strip performs (irregular\, stripping) improv while transforming the very clothes they are wearing into props until the whole team is as naked as is permitted by law.
+URL:https://theimprovshop.com/show/shirts-and-skins-with-comic-strip-and-friends-5/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2024/12/Shirts-1080-x-696-px_20241223_162232_0000.png/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251122T210000
+DTEND;TZID=America/Chicago:20251122T223000
+DTSTAMP:20251112T103523
+CREATED:20251008T145333Z
+LAST-MODIFIED:20251008T145333Z
+UID:50939-1763845200-1763850600@theimprovshop.com
+SUMMARY:80085 4 U
+DESCRIPTION:To everyone who puts in a hard day’s work\, this show is for you. To everyone who relishes the bizarre\, laughs at the weird & values vulnerability\, this show is for you. No intermission (probably)\, no nudes (yet)\, lots of confessions (maybe even from you)\, one team (unless there are more). Whether you’ve got ‘em\, want ‘em\, or haven’t thought about ‘em\, this 80085 is for you.
+URL:https://theimprovshop.com/show/80085-4-u-3/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/07/IMG_3083.jpeg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251124T190000
+DTEND;TZID=America/Chicago:20251124T203000
+DTSTAMP:20251112T103523
+CREATED:20251029T162401Z
+LAST-MODIFIED:20251029T162401Z
+UID:51335-1764010800-1764016200@theimprovshop.com
+SUMMARY:Teams Level 2 Student Showcase
+DESCRIPTION:Join our Teams Level 2 students as they showcase their talents every Monday at 7pm in mainstage! \nThis is a free event!
+URL:https://theimprovshop.com/show/teams-level-2-student-showcase-17/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Student Showcase
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251124T190000
+DTEND;TZID=America/Chicago:20251124T203000
+DTSTAMP:20251112T103523
+CREATED:20251029T164415Z
+LAST-MODIFIED:20251029T164415Z
+UID:51358-1764010800-1764016200@theimprovshop.com
+SUMMARY:Teams Level 1 Student Showcase
+DESCRIPTION:Join our Teams Level 1 students every Monday at 7pm on sidestage as they showcase their talents over the 8-weeks of their class. \nThis is a free event!
+URL:https://theimprovshop.com/show/teams-level-1-student-showcase-5/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Student Showcase
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251128T190000
+DTEND;TZID=America/Chicago:20251128T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T144139Z
+LAST-MODIFIED:20251008T144139Z
+UID:50920-1764356400-1764361800@theimprovshop.com
+SUMMARY:SO FAKE
+DESCRIPTION:Three local Improv teams will take over the sidestage and get a little weird with it! Experimental\, fun\, different. Settle down with whatever people drink in the fall and enjoy!
+URL:https://theimprovshop.com/show/so-fake-2/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/08/SIGNAGE-sofakefall2023-696x1080-1.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251128T190000
+DTEND;TZID=America/Chicago:20251128T203000
+DTSTAMP:20251112T103523
+CREATED:20251027T163810Z
+LAST-MODIFIED:20251106T150442Z
+UID:51272-1764356400-1764361800@theimprovshop.com
+SUMMARY:THE ASTERISK*
+DESCRIPTION:In this show\, we give the suggestion to YOU. Every show has a theme\, and every audience** has stories to share. With your help\, St. Louis’s best improv comics take a simple idea*** and dig into the juicy details. The result: scenes made up in real time\, powered by your footnotes\, omission\, and disclaimers. Subtext has never been so fun! \n*every Friday at 7pm\n**you\, we hope\n***that night’s theme \nThis week’s theme: Thanksgiving Gratitude\nYou’re full of food. You’re full of love. Share what you’re grateful for\, and our performers will use it to create scenes made up before your eyes.
+URL:https://theimprovshop.com/show/the-asterisk-2/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Holiday,Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/wp-content/uploads/2025/10/Asterisk-Holidays-Website.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251129T190000
+DTEND;TZID=America/Chicago:20251129T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T144628Z
+LAST-MODIFIED:20251008T144628Z
+UID:50935-1764442800-1764448200@theimprovshop.com
+SUMMARY:Happy Hands Social Club
+DESCRIPTION:St. Louis’ only all-puppet longform improv team\, Happy Hands Social Club\, invites you to an evening of improvisation. An all-human team that is TBA\, will open!
+URL:https://theimprovshop.com/show/happy-hands-social-club-4/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2024/12/5d18fd88-6be4-44a1-acf4-8a9f30c48e1f.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251129T190000
+DTEND;TZID=America/Chicago:20251129T203000
+DTSTAMP:20251112T103523
+CREATED:20251111T133527Z
+LAST-MODIFIED:20251111T133527Z
+UID:51586-1764442800-1764448200@theimprovshop.com
+SUMMARY:You're Crazy Show
+DESCRIPTION:As one of St. Louis’ longest running teams\, improv twosie Your Crazy Man always brings their innovative and fun playstyle to the stage. Together\, Scott and Scott have performed in hundreds of shows as well as festivals such as Third Coast\, Countdown\, and Flyover\, dating all the way back to their early days of taking classes together in 2018.\n\nThis is the THIRD consecutive Your Crazy Man Thanksgiving week show\, so we’re going to call it a tradition!\n\nJoin us on the Improv Shop mainstage for roughly 45 minutes of Your Crazy Man improv\, along with a special guest team opening up the show!
+URL:https://theimprovshop.com/show/youre-crazy-show/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2022/12/SIGNAGE-crazyshowcopy-696x1080-1.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251129T210000
+DTEND;TZID=America/Chicago:20251129T223000
+DTSTAMP:20251112T103523
+CREATED:20251029T161014Z
+LAST-MODIFIED:20251029T161014Z
+UID:51319-1764450000-1764455400@theimprovshop.com
+SUMMARY:STL Tonite Live
+DESCRIPTION:STL Tonite Live is a Saturday Night Live/Tonight Show hybrid that combines live sketches with recorded material\, interviews\, musical guests\, and more. \nCast: Analicia Kocher\, Logan Short\, Scott Leeker\, Shante Love\, Taylor Dukeman\nImprov from: Touch Baseball\nMusical Guest: Megadune \nHosted by: Tiel Pearce & Andrew Gieselmann
+URL:https://theimprovshop.com/show/stl-tonite-live/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Sketch,Speciality
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/10/stl-tonite-live.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251204T190000
+DTEND;TZID=America/Chicago:20251204T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T140918Z
+LAST-MODIFIED:20251008T140918Z
+UID:50900-1764874800-1764880200@theimprovshop.com
+SUMMARY:The Menagerie
+DESCRIPTION:Come one! Come all! and catch three local improv teams as they perform in front of a live audience. Just like a zoo!…except there’s no cages or fish tanks.
+URL:https://theimprovshop.com/show/the-menagerie-3/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/06/826334f4-6984-43cf-a01c-d2136cec877d.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251204T210000
+DTEND;TZID=America/Chicago:20251204T223000
+DTSTAMP:20251112T103523
+CREATED:20251008T141236Z
+LAST-MODIFIED:20251008T141236Z
+UID:50906-1764882000-1764887400@theimprovshop.com
+SUMMARY:The Merry-Go-Round
+DESCRIPTION:Step right up for The Merry-Go-Round\, an improv extravaganza! Three local improv teams go round and round and take you on a ride of unscripted fun. Don’t miss the show where anything can happen—except boredom!  \nThis is a free event!
+URL:https://theimprovshop.com/show/the-merry-go-round-5/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2024/12/merry-go-round.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251205T190000
+DTEND;TZID=America/Chicago:20251205T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T144239Z
+LAST-MODIFIED:20251008T144239Z
+UID:50924-1764961200-1764966600@theimprovshop.com
+SUMMARY:SO FAKE
+DESCRIPTION:Three local Improv teams will take over the sidestage and get a little weird with it! Experimental\, fun\, different. Settle down with whatever people drink in the fall and enjoy!
+URL:https://theimprovshop.com/show/so-fake-5/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/08/SIGNAGE-sofakefall2023-696x1080-1.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251205T190000
+DTEND;TZID=America/Chicago:20251205T203000
+DTSTAMP:20251112T103523
+CREATED:20251027T163922Z
+LAST-MODIFIED:20251106T150517Z
+UID:51276-1764961200-1764966600@theimprovshop.com
+SUMMARY:THE ASTERISK*
+DESCRIPTION:In this show\, we give the suggestion to YOU. Every show has a theme\, and every audience** has stories to share. With your help\, St. Louis’s best improv comics take a simple idea*** and dig into the juicy details. The result: scenes made up in real time\, powered by your footnotes\, omission\, and disclaimers. Subtext has never been so fun! \n*every Friday at 7pm\n**you\, we hope\n***that night’s theme \nThis week’s theme: Deck the Halls (Decorating Traditions)\nGot any special decorating traditions? Ugly ornaments? The Balsam Hill tree you drunk-bought one year? Come tell us!
+URL:https://theimprovshop.com/show/the-asterisk-3/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Holiday,Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/wp-content/uploads/2025/10/Asterisk-Holidays-Website.png
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251206T190000
+DTEND;TZID=America/Chicago:20251206T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T133434Z
+LAST-MODIFIED:20251008T133434Z
+UID:50880-1765047600-1765053000@theimprovshop.com
+SUMMARY:Yaaas And Friends
+DESCRIPTION:The first\, last\, and only queer improv team\, Yaaaas And\, is performing some queer improv along with their fellow queer (and ally) improv teams! It’s gonna be queer and crazy. Bring your queer-self to watch or else you’re straight.
+URL:https://theimprovshop.com/show/yaaas-and-friends-6/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/05/YAAAS-And-Friends-v2.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251206T190000
+DTEND;TZID=America/Chicago:20251206T203000
+DTSTAMP:20251112T103523
+CREATED:20251008T143558Z
+LAST-MODIFIED:20251008T143558Z
+UID:50916-1765047600-1765053000@theimprovshop.com
+SUMMARY:The One Four Fives present an Improvised Musical!
+DESCRIPTION:It’s the opening (and err closing) night of a Broadway-style musical\, completely made up on the spot. Based on an audience suggestion\, The One Four Fives will create a one-of-a-kind musical filled with drama\, comedy\, and songs you’ll be humming all the way home. \nSearching for musicals in St. Louis? A night of comedy in St. Louis? Or a unique St. Louis theater experience? Look no further—this show delivers it all. Every performance is a brand new creation—the songs\, the story\, the music\, and the choreography are all made up on the spot. \nGet your tickets now! Don’t miss your chance to experience the magic of live theater\, comedy\, and music—all in one show. \nAbout: The One Four Fives have been creating improvised musicals in St. Louis for over 6 years. The cast consists of Darrell Barber\, Anna Agniel\, Boo Kersting\, Andy Sloey\, Jenn Korman\, Nathan Maul\, Ryan Myers\, and Ashley Rube. The group was named a finalist in St. Louis Magazine’s A List for Favorite Live Theater Group in 2023 and 2024. \nWhat People are Saying:\n“Comedy and theater fans who enjoy laughs\, improv and a good melody you can tap your toes to should really catch one of the monthly performances of The One Four Fives\, an improvised musical from St. Louis’s Improv Shop.” – Tina Farmer\, Riverfront Times \n“The reason for their longevity is clear …they have mastered the tricks of their trade.” -Gerry Kowarsky\, Two on the Aisle \n“I am in awe of how cohesive this group is. Every member contributes a unique take on whatever the prompt is – and I was doubled over laughing the whole time. You will laugh and relate to these amazing people. I highly recommend.” – Jessi S.\, audience member
+URL:https://theimprovshop.com/show/the-one-four-fives-present-an-improvised-musical-5/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Musical Improv
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/02/One-Four-Fives-Improvised-Musical-2.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251206T210000
+DTEND;TZID=America/Chicago:20251206T223000
+DTSTAMP:20251112T103523
+CREATED:20250905T230223Z
+LAST-MODIFIED:20251020T134649Z
+UID:50036-1765054800-1765060200@theimprovshop.com
+SUMMARY:Whose Show Is It Anyway?
+DESCRIPTION:Rated TV-MA. The latest IS original series–and your next binge watch–is now streaming from main stage! Join The Body as they “Netflix and chill” with featured team EMPRESS to bring you a high-energy 90 minutes of longform improv mixed with short-form games. Viewer discretion is advised.
+URL:https://theimprovshop.com/show/whose-show-is-it-anyway-5/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2024/08/Whose-Show-logo-v1.png/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251206T210000
+DTEND;TZID=America/Chicago:20251206T223000
+DTSTAMP:20251112T103523
+CREATED:20250930T182812Z
+LAST-MODIFIED:20250930T182812Z
+UID:50749-1765054800-1765060200@theimprovshop.com
+SUMMARY:After Dark with Gigi
+DESCRIPTION:Welcome to After Dark\, the most unpredictable late-night talk show where anything can happen! Hosted by the endlessly charming Gigi\, this show thrives on spontaneity and surprises. Get ready for unscripted interviews with “Improv Shop Famous” special guests Melanie Penn\, Tara O’Nay\, Max Levin\, and Emily Hooper – with Aaron Burke on tech. Tune in and be part of the magic—because when the clock strikes 9pm\, the real fun begins!
+URL:https://theimprovshop.com/show/after-dark-with-gigi/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Talk Show
+ATTACH;FMTTYPE=image/png:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/08/after_dark.png/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251208T190000
+DTEND;TZID=America/Chicago:20251208T203000
+DTSTAMP:20251112T103523
+CREATED:20251029T162444Z
+LAST-MODIFIED:20251029T162444Z
+UID:51337-1765220400-1765225800@theimprovshop.com
+SUMMARY:Teams Level 2 Student Showcase
+DESCRIPTION:Join our Teams Level 2 students as they showcase their talents every Monday at 7pm in mainstage! \nThis is a free event!
+URL:https://theimprovshop.com/show/teams-level-2-student-showcase-18/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Student Showcase
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM.jpg/w=9999
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20251208T190000
+DTEND;TZID=America/Chicago:20251208T203000
+DTSTAMP:20251112T103523
+CREATED:20251029T163655Z
+LAST-MODIFIED:20251029T164530Z
+UID:51352-1765220400-1765225800@theimprovshop.com
+SUMMARY:Teams Level 1 Student Showcase
+DESCRIPTION:Join our Teams Level 1 students every Monday at 7pm on sidestage as they showcase their talents over the 8-weeks of their class. \nThis is a free event!
+URL:https://theimprovshop.com/show/teams-level-1-student-showcase-2/
+LOCATION:St. Louis\, 3960 Chouteau Ave.\, St. Louis\, MO\, 63110\, United States
+CATEGORIES:Improvisation,Student Showcase
+ATTACH;FMTTYPE=image/jpeg:https://theimprovshop.com/cdn-cgi/imagedelivery/nK-Zp4rePU3J22_LxCmgmQ/theimprovshop.com/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1.jpg/w=9999
+END:VEVENT
+END:VCALENDAR

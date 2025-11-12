@@ -1,0 +1,32 @@
+.env
+
+
+# Binaries for the current project
+*.exe
+*.dll
+*.so
+*.dylib
+*.wasm
+bin/
+
+# Go module cache and build artifacts
+vendor/
+go.mod.sum # Can be ignored if using Go 1.16+ and `go mod tidy` is run regularly
+go.sum # Typically committed, but can be ignored in specific scenarios
+
+# IDE and editor specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.DS_Store
+
+# Test-related files
+*.test
+*.out
+
+# Logs and temporary files
+*.log
+tmp/
+
+shopsync
