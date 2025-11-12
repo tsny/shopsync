@@ -14,15 +14,30 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/tsny/shopsync/pkg/icalplayers"
 	"github.com/tsny/shopsync/pkg/showstore"
+	"github.com/tsny/shopsync/pkg/wpimg"
 )
 
 func main() {
 	src := flag.String("src", "", "Path or URL to an .ics file. Use '-' to read from stdin")
-	// jsonOut := flag.Bool("json", false, "Output JSON instead of text")
-	// timeout := flag.Duration("timeout", 15*time.Second, "Download timeout")
+	postURL := flag.String("post-url", "", "URL to POST each image to")
+	dryRun := flag.Bool("dry-run", true, "If set, do not store events in the database")
 	flag.Parse()
 
 	_ = godotenv.Load()
+
+	if postURL != nil && *postURL != "" {
+		// https://theimprovshop.com/show/teams-level-2-student-showcase-16/
+		res, err := wpimg.Fetch(context.Background(), *postURL)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println("Fetched image:", res.ImageURL)
+		return
+	}
+
+	if !*dryRun {
+		fmt.Println("WARNING: Database will be erased and recreated.")
+	}
 
 	dbURL := os.Getenv("DATABASE_URL")
 	if dbURL == "" {
@@ -35,13 +50,6 @@ func main() {
 		log.Fatal(err)
 	}
 	defer store.Close()
-
-	if err := store.Drop(ctx); err != nil {
-		log.Fatal(err)
-	}
-	if err := store.Migrate(ctx); err != nil {
-		log.Fatal(err)
-	}
 
 	if *src == "" {
 		exitErr(errors.New("missing -src"))
@@ -64,10 +72,22 @@ func main() {
 	}
 	icalplayers.SummarizeEvents(events)
 
+	if *dryRun {
+		fmt.Println("Dry run; not storing events.")
+		return
+	}
+
 	if len(events) == 0 {
 		fmt.Println("No events to store.")
 		return
 	}
+	if err := store.Drop(ctx); err != nil {
+		log.Fatal(err)
+	}
+	if err := store.Migrate(ctx); err != nil {
+		log.Fatal(err)
+	}
+
 	for _, e := range events {
 		if err := store.Upsert(ctx, e); err != nil {
 			exitErr(err)

@@ -18,19 +18,21 @@ import (
 	"unicode"
 
 	ics "github.com/arran4/golang-ical"
+	"github.com/tsny/shopsync/pkg/wpimg"
 )
 
 type Event struct {
-	UID         string     `json:"uid"`
-	Summary     string     `json:"summary"`
-	Description string     `json:"description"`
-	Location    string     `json:"location"`
-	URL         string     `json:"url"`
-	Organizer   string     `json:"organizer"`
-	Start       *time.Time `json:"start,omitempty"`
-	End         *time.Time `json:"end,omitempty"`
-	AllDay      bool       `json:"allDay"`
-	Players     []string   `json:"players,omitempty"`
+	UID          string     `json:"uid"`
+	Summary      string     `json:"summary"`
+	Description  string     `json:"description"`
+	Location     string     `json:"location"`
+	URL          string     `json:"url"`
+	PostImageURL string     `json:"postImageUrl,omitempty"`
+	Organizer    string     `json:"organizer"`
+	Start        *time.Time `json:"start,omitempty"`
+	End          *time.Time `json:"end,omitempty"`
+	AllDay       bool       `json:"allDay"`
+	Players      []string   `json:"players,omitempty"`
 }
 
 type NameDict struct {
@@ -89,6 +91,11 @@ func FromReader(r io.Reader, dict *NameDict) ([]Event, error) {
 	evs := collectEvents(cal)
 	for i := range evs {
 		evs[i].Players = InferPlayerNames(evs[i].Description, dict)
+		postResult, _ := wpimg.Fetch(context.Background(), evs[i].URL)
+		if postResult.ImageURL != "" {
+			evs[i].PostImageURL = postResult.ImageURL
+			fmt.Println("Fetched post image:", postResult.ImageURL)
+		}
 	}
 	return evs, nil
 }

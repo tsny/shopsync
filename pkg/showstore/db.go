@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS shows (
   summary TEXT NOT NULL,
   description TEXT NOT NULL,
 	url TEXT,
+	post_image_url TEXT,
   start TIMESTAMPTZ,
   players TEXT[] NOT NULL DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
@@ -52,23 +53,33 @@ CREATE INDEX IF NOT EXISTS shows_start_idx ON shows (start);
 // Now includes the URL field.
 func (s *Store) Upsert(ctx context.Context, e icalplayers.Event) error {
 	const q = `
-INSERT INTO shows (uid, summary, description, url, start, players, created_at, updated_at)
-VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
+INSERT INTO shows (
+  uid, summary, description, url, post_image_url, start, players, created_at, updated_at
+) VALUES (
+  $1,  $2,      $3,          NULLIF($4, ''), NULLIF($5, ''), $6,  $7,      NOW(),   NOW()
+)
 ON CONFLICT (uid) DO UPDATE
-SET summary     = EXCLUDED.summary,
-    description = EXCLUDED.description,
-    url         = EXCLUDED.url,
-    start       = EXCLUDED.start,
-    players     = EXCLUDED.players,
-    updated_at  = NOW();
+SET summary        = EXCLUDED.summary,
+    description    = EXCLUDED.description,
+    url            = EXCLUDED.url,
+    post_image_url = EXCLUDED.post_image_url,
+    start          = EXCLUDED.start,
+    players        = EXCLUDED.players,
+    updated_at     = NOW();
 `
-	_, err := s.pool.Exec(ctx, q,
-		e.UID,
-		e.Summary,
-		e.Description,
-		e.URL,
-		e.Start,
-		strSliceToTextArray(e.Players),
+
+	// Ensure players is never nil; use empty array when needed.
+	players := strSliceToTextArray(e.Players) // should produce {}, not NULL
+
+	_, err := s.pool.Exec(
+		ctx, q,
+		e.UID,          // $1
+		e.Summary,      // $2
+		e.Description,  // $3
+		e.URL,          // $4
+		e.PostImageURL, // $5
+		e.Start,        // $6 (time.Time or pgtype.Timestamptz)
+		players,        // $7 (TEXT[])
 	)
 	return err
 }
