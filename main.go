@@ -2,6 +2,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"errors"
 	"flag"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/tsny/shopsync/pkg/icalplayers"
@@ -19,9 +21,15 @@ import (
 
 func main() {
 	src := flag.String("src", "", "Path or URL to an .ics file. Use '-' to read from stdin")
-	postURL := flag.String("post-url", "", "URL to POST each image to")
+	postURL := flag.String("post-url", "", "testing param: grabs image from given post URL")
+	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
+	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
 	dryRun := flag.Bool("dry-run", true, "If set, do not store events in the database")
 	flag.Parse()
+
+	if *skipImageSearch {
+		icalplayers.SkipImageSearch = true
+	}
 
 	_ = godotenv.Load()
 
@@ -70,6 +78,45 @@ func main() {
 			exitErr(err)
 		}
 	}
+
+	if len(events) == 0 {
+		fmt.Println("No events found")
+		return
+	}
+
+	var teams []showstore.Team
+	if *useTeamsFile {
+		teamList, err := ReadLinesToArray("teams.txt")
+		if err != nil {
+			exitErr(err)
+		}
+		for _, t := range teamList {
+			teams = append(teams, showstore.Team{Name: t})
+		}
+	} else {
+		teams, err = store.GetAllTeams(ctx)
+		if err != nil {
+			exitErr(err)
+		}
+		fmt.Printf("Loaded %d teams from database.\n", len(teams))
+	}
+
+	for i, ev := range events {
+		parsedTeams := findTeams(ev.Description, teams)
+		if len(parsedTeams) > 0 {
+			for _, t := range parsedTeams {
+				if t.ID == "" {
+					fmt.Printf("Skipping team with empty ID: %s\n", t.Name)
+					return
+				}
+				events[i].TeamIDs = append(events[i].TeamIDs, t.ID)
+				events[i].Teams = append(events[i].Teams, t.Name)
+			}
+		} else {
+			fmt.Printf("Event %s matches no teams.\n", ev.Summary)
+		}
+	}
+
 	icalplayers.SummarizeEvents(events)
 
 	if *dryRun {
@@ -77,10 +124,6 @@ func main() {
 		return
 	}
 
-	if len(events) == 0 {
-		fmt.Println("No events to store.")
-		return
-	}
 	if err := store.Drop(ctx); err != nil {
 		log.Fatal(err)
 	}
@@ -89,7 +132,7 @@ func main() {
 	}
 
 	for _, e := range events {
-		if err := store.Upsert(ctx, e); err != nil {
+		if err := store.UpsertShow(ctx, e); err != nil {
 			exitErr(err)
 		}
 	}
@@ -104,4 +147,38 @@ func isURL(s string) bool {
 func exitErr(err error) {
 	fmt.Fprintln(os.Stderr, "error:", err)
 	os.Exit(1)
+}
+
+// findTeams from event description
+func findTeams(desc string, teams []showstore.Team) []showstore.Team {
+	var matches []showstore.Team
+	for _, t := range teams {
+		if len(t.Name) <= 4 { // skip short/generic names
+			continue
+		}
+		if strings.Contains(desc, t.Name) {
+			fmt.Println(t.Name)
+			matches = append(matches, t)
+		}
+	}
+	return matches
+}
+
+// read new line separated file into array
+func ReadLinesToArray(path string) ([]string, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	var lines []string
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+	return lines, nil
 }

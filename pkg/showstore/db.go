@@ -38,7 +38,9 @@ CREATE TABLE IF NOT EXISTS shows (
 	url TEXT,
 	post_image_url TEXT,
   start TIMESTAMPTZ,
-  players TEXT[] NOT NULL DEFAULT '{}',
+  players TEXT[] DEFAULT '{}',
+  teams TEXT[] DEFAULT '{}',
+  team_ids TEXT[] DEFAULT '{}',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -49,14 +51,14 @@ CREATE INDEX IF NOT EXISTS shows_start_idx ON shows (start);
 	return err
 }
 
-// Upsert inserts or updates a single event.
+// UpsertShow inserts or updates a single event.
 // Now includes the URL field.
-func (s *Store) Upsert(ctx context.Context, e icalplayers.Event) error {
+func (s *Store) UpsertShow(ctx context.Context, e icalplayers.Event) error {
 	const q = `
 INSERT INTO shows (
-  uid, summary, description, url, post_image_url, start, players, created_at, updated_at
+  uid, summary, description, url, post_image_url, start, players, teams, team_ids, created_at, updated_at
 ) VALUES (
-  $1,  $2,      $3,          NULLIF($4, ''), NULLIF($5, ''), $6,  $7,      NOW(),   NOW()
+  $1,  $2,      $3,          NULLIF($4, ''), NULLIF($5, ''), $6,  $7,      $8, $9,      NOW(),   NOW()
 )
 ON CONFLICT (uid) DO UPDATE
 SET summary        = EXCLUDED.summary,
@@ -65,11 +67,15 @@ SET summary        = EXCLUDED.summary,
     post_image_url = EXCLUDED.post_image_url,
     start          = EXCLUDED.start,
     players        = EXCLUDED.players,
+    teams          = EXCLUDED.teams,
+    team_ids       = EXCLUDED.team_ids,
     updated_at     = NOW();
 `
 
 	// Ensure players is never nil; use empty array when needed.
-	players := strSliceToTextArray(e.Players) // should produce {}, not NULL
+	players := strSliceToTextArray(e.Players)     // should produce {}, not NULL
+	teamSlice := strSliceToTextArray(e.Teams)     // should produce {}, not NULL
+	teamIDSlice := strSliceToTextArray(e.TeamIDs) // should produce {}, not NULL
 
 	_, err := s.pool.Exec(
 		ctx, q,
@@ -80,6 +86,8 @@ SET summary        = EXCLUDED.summary,
 		e.PostImageURL, // $5
 		e.Start,        // $6 (time.Time or pgtype.Timestamptz)
 		players,        // $7 (TEXT[])
+		teamSlice,      // $8 (TEXT[])
+		teamIDSlice,    // $9 (TEXT[]
 	)
 	return err
 }
@@ -91,7 +99,32 @@ func strSliceToTextArray(in []string) []string {
 	return in
 }
 
-func (s *Store) GetAll(ctx context.Context) ([]icalplayers.Event, error) {
+func (s *Store) GetAllTeams(ctx context.Context) ([]Team, error) {
+	const q = `
+SELECT name, id
+FROM "Team"
+`
+	rows, err := s.pool.Query(ctx, q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []Team
+	for rows.Next() {
+		var t Team
+		if err := rows.Scan(&t.Name, &t.ID); err != nil {
+			return nil, err
+		}
+		out = append(out, t)
+	}
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+	return out, nil
+}
+
+func (s *Store) GetAllShows(ctx context.Context) ([]icalplayers.Event, error) {
 	const q = `
 SELECT uid, summary, description, start, players
 FROM shows

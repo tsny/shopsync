@@ -21,6 +21,8 @@ import (
 	"github.com/tsny/shopsync/pkg/wpimg"
 )
 
+var SkipImageSearch = false
+
 type Event struct {
 	UID          string     `json:"uid"`
 	Summary      string     `json:"summary"`
@@ -33,6 +35,8 @@ type Event struct {
 	End          *time.Time `json:"end,omitempty"`
 	AllDay       bool       `json:"allDay"`
 	Players      []string   `json:"players,omitempty"`
+	Teams        []string   `json:"teams,omitempty"`
+	TeamIDs      []string   `json:"teamIds,omitempty"`
 }
 
 type NameDict struct {
@@ -91,10 +95,12 @@ func FromReader(r io.Reader, dict *NameDict) ([]Event, error) {
 	evs := collectEvents(cal)
 	for i := range evs {
 		evs[i].Players = InferPlayerNames(evs[i].Description, dict)
-		postResult, _ := wpimg.Fetch(context.Background(), evs[i].URL)
-		if postResult.ImageURL != "" {
-			evs[i].PostImageURL = postResult.ImageURL
-			fmt.Println("Fetched post image:", postResult.ImageURL)
+		if !SkipImageSearch {
+			postResult, _ := wpimg.Fetch(context.Background(), evs[i].URL)
+			if postResult.ImageURL != "" {
+				evs[i].PostImageURL = postResult.ImageURL
+				fmt.Println("Fetched post image:", postResult.ImageURL)
+			}
 		}
 	}
 	return evs, nil
@@ -442,30 +448,26 @@ func SummarizeEvents(events []Event) {
 		fmt.Println("No VEVENTs found.")
 		return
 	}
-	for i, ev := range events {
-		if i > 0 {
-			fmt.Println(strings.Repeat("-", 60))
-		}
+	for _, ev := range events {
 		fmt.Printf("UID:         %s\n", ev.UID)
 		fmt.Printf("Summary:     %s\n", ev.Summary)
 		fmt.Printf("URL:        %s\n", ev.URL)
-		fmt.Printf("Location:    %s\n", ev.Location)
 		if ev.Start != nil {
 			fmt.Printf("Start:       %s\n", ev.Start.Format(time.RFC3339))
 		}
-		if ev.End != nil {
-			fmt.Printf("End:         %s\n", ev.End.Format(time.RFC3339))
-		}
-		fmt.Printf("All-day:     %t\n", ev.AllDay)
-		fmt.Printf("Organizer:   %s\n", ev.Organizer)
-		fmt.Printf("Players:   %v\n", ev.Players)
+		// fmt.Printf("Players:   %v\n", ev.Players)
 		fmt.Printf("Description:\n%s\n", coalesce(ev.Description, "(none)"))
+		fmt.Printf("Teams:     %v\n", ev.Teams)
+		fmt.Printf("Team IDs:  %v\n", ev.TeamIDs)
+		fmt.Println(strings.Repeat("-", 60))
 	}
 }
-
 func coalesce(s, d string) string {
 	if strings.TrimSpace(s) == "" {
 		return d
+	}
+	if len(s) > 50 {
+		return s[:50] + "..."
 	}
 	return s
 }
