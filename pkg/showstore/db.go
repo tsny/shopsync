@@ -3,6 +3,7 @@ package showstore
 import (
 	"context"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/tsny/shopsync/pkg/icalplayers"
 )
@@ -32,20 +33,36 @@ func (s *Store) Close() { s.pool.Close() }
 func (s *Store) Migrate(ctx context.Context) error {
 	const q = `
 CREATE TABLE IF NOT EXISTS shows (
-  uid TEXT PRIMARY KEY,
-  summary TEXT NOT NULL,
-  description TEXT NOT NULL,
-	url TEXT,
-	post_image_url TEXT,
-  start TIMESTAMPTZ,
-  players TEXT[] DEFAULT '{}',
-  teams TEXT[] DEFAULT '{}',
-  team_ids TEXT[] DEFAULT '{}',
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  uid            TEXT PRIMARY KEY,
+  summary        TEXT NOT NULL,
+  description    TEXT NOT NULL,
+  url            TEXT,
+  post_image_url TEXT,
+  start          TIMESTAMPTZ,
+  players        TEXT[] DEFAULT '{}',
+  teams          TEXT[] DEFAULT '{}',
+  addl_teams     TEXT[] DEFAULT '{}',
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS show_teams (
+  show_uid TEXT NOT NULL REFERENCES shows(uid) ON DELETE CASCADE,
+  team_id  TEXT NOT NULL REFERENCES "Team"(id) ON DELETE CASCADE,
+  PRIMARY KEY (show_uid, team_id)
+);
+
+CREATE INDEX IF NOT EXISTS show_teams_team_id_idx ON show_teams(team_id);
 CREATE INDEX IF NOT EXISTS shows_start_idx ON shows (start);
+`
+	_, err := s.pool.Exec(ctx, q)
+	return err
+}
+
+func (s *Store) DeletePastEvents(ctx context.Context) error {
+	const q = `
+DELETE FROM shows
+WHERE start < NOW();
 `
 	_, err := s.pool.Exec(ctx, q)
 	return err
@@ -53,13 +70,20 @@ CREATE INDEX IF NOT EXISTS shows_start_idx ON shows (start);
 
 // UpsertShow inserts or updates a single event.
 // Now includes the URL field.
-func (s *Store) UpsertShow(ctx context.Context, e icalplayers.Event) error {
-	const q = `
-INSERT INTO shows (
-  uid, summary, description, url, post_image_url, start, players, teams, team_ids, created_at, updated_at
-) VALUES (
-  $1,  $2,      $3,          NULLIF($4, ''), NULLIF($5, ''), $6,  $7,      $8, $9,      NOW(),   NOW()
-)
+func (s *Store) Upsert(ctx context.Context, e icalplayers.Event) error {
+	tx, err := s.pool.BeginTx(ctx, pgx.TxOptions{})
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback(ctx)
+		}
+	}()
+
+	const upsertShow = `
+INSERT INTO shows (uid, summary, description, url, post_image_url, start, players, teams, created_at, updated_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())
 ON CONFLICT (uid) DO UPDATE
 SET summary        = EXCLUDED.summary,
     description    = EXCLUDED.description,
@@ -68,28 +92,48 @@ SET summary        = EXCLUDED.summary,
     start          = EXCLUDED.start,
     players        = EXCLUDED.players,
     teams          = EXCLUDED.teams,
-    team_ids       = EXCLUDED.team_ids,
     updated_at     = NOW();
 `
 
-	// Ensure players is never nil; use empty array when needed.
-	players := strSliceToTextArray(e.Players)     // should produce {}, not NULL
-	teamSlice := strSliceToTextArray(e.Teams)     // should produce {}, not NULL
-	teamIDSlice := strSliceToTextArray(e.TeamIDs) // should produce {}, not NULL
-
-	_, err := s.pool.Exec(
-		ctx, q,
-		e.UID,          // $1
-		e.Summary,      // $2
-		e.Description,  // $3
-		e.URL,          // $4
-		e.PostImageURL, // $5
-		e.Start,        // $6 (time.Time or pgtype.Timestamptz)
-		players,        // $7 (TEXT[])
-		teamSlice,      // $8 (TEXT[])
-		teamIDSlice,    // $9 (TEXT[]
+	_, err = tx.Exec(ctx, upsertShow,
+		e.UID,
+		e.Summary,
+		e.Description,
+		e.URL,
+		e.PostImageURL,
+		e.Start,
+		strSliceToTextArray(e.Players),
+		strSliceToTextArray(e.Teams),
 	)
-	return err
+	if err != nil {
+		return err
+	}
+
+	if err = syncShowTeams(ctx, tx, e.UID, e.TeamIDs); err != nil {
+		return err
+	}
+
+	return tx.Commit(ctx)
+}
+
+func syncShowTeams(ctx context.Context, tx pgx.Tx, showUID string, teamIDs []string) error {
+	if len(teamIDs) == 0 {
+		return nil
+	}
+
+	const q = `
+INSERT INTO show_teams (show_uid, team_id)
+VALUES ($1, $2)
+ON CONFLICT (show_uid, team_id) DO NOTHING
+`
+
+	for _, id := range teamIDs {
+		if _, err := tx.Exec(ctx, q, showUID, id); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // Helper: TEXT[] wants []string; pgx will map it automatically.
@@ -154,7 +198,10 @@ ORDER BY start NULLS LAST;
 
 // In showstore/store.go
 func (s *Store) Drop(ctx context.Context) error {
-	const q = `DROP TABLE IF EXISTS shows;`
+	const q = `
+DROP TABLE IF EXISTS show_teams;
+DROP TABLE IF EXISTS shows;
+`
 	_, err := s.pool.Exec(ctx, q)
 	return err
 }

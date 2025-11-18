@@ -24,6 +24,7 @@ func main() {
 	postURL := flag.String("post-url", "", "testing param: grabs image from given post URL")
 	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
 	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
+	recreateDB := flag.Bool("recreate-db", false, "If set, drop and recreate the database tables")
 	dryRun := flag.Bool("dry-run", true, "If set, do not store events in the database")
 	flag.Parse()
 
@@ -43,7 +44,7 @@ func main() {
 		return
 	}
 
-	if !*dryRun {
+	if !*dryRun && *recreateDB {
 		fmt.Println("WARNING: Database will be erased and recreated.")
 	}
 
@@ -124,15 +125,24 @@ func main() {
 		return
 	}
 
-	if err := store.Drop(ctx); err != nil {
-		log.Fatal(err)
-	}
-	if err := store.Migrate(ctx); err != nil {
-		log.Fatal(err)
+	if *recreateDB {
+		fmt.Printf("Recreating database...\n")
+		if err := store.Drop(ctx); err != nil {
+			log.Fatal(err)
+		}
+		if err := store.Migrate(ctx); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Database recreated.\n")
+	} else {
+		fmt.Printf("Deleting past events...\n")
+		if err := store.DeletePastEvents(ctx); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	for _, e := range events {
-		if err := store.UpsertShow(ctx, e); err != nil {
+		if err := store.Upsert(ctx, e); err != nil {
 			exitErr(err)
 		}
 	}
