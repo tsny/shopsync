@@ -2,6 +2,7 @@ package showstore
 
 import (
 	"context"
+	"time"
 
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -196,6 +197,111 @@ ORDER BY start NULLS LAST;
 	return out, nil
 }
 
+// ShowWithImageURL represents a show with its image URL status
+type ShowWithImageURL struct {
+	UID          string
+	Summary      string
+	PostImageURL *string // nil if not set
+}
+
+// GetShowsWithoutImageURL returns all shows that don't have a post_image_url set
+func (s *Store) GetShowsWithoutImageURL(ctx context.Context) ([]ShowWithImageURL, error) {
+	const q = `
+SELECT uid, summary, post_image_url
+FROM shows
+WHERE post_image_url IS NULL OR post_image_url = ''
+ORDER BY start NULLS LAST;
+`
+	rows, err := s.pool.Query(ctx, q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []ShowWithImageURL
+	for rows.Next() {
+		var show ShowWithImageURL
+		var postImageURL *string
+		if err := rows.Scan(&show.UID, &show.Summary, &postImageURL); err != nil {
+			return nil, err
+		}
+		show.PostImageURL = postImageURL
+		out = append(out, show)
+	}
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+	return out, nil
+}
+
+// UpdateShowImageURL updates the post_image_url for a show by its UID
+func (s *Store) UpdateShowImageURL(ctx context.Context, uid, imageURL string) error {
+	const q = `
+UPDATE shows
+SET post_image_url = $1, updated_at = NOW()
+WHERE uid = $2;
+`
+	_, err := s.pool.Exec(ctx, q, imageURL, uid)
+	return err
+}
+
+// UpdateAllTimesToPM updates all show start times to PM
+// Times that are AM (0-11 hours) will have 12 hours added to become PM
+// Times that are already PM (12-23 hours) will remain unchanged
+// Uses America/Chicago timezone for hour extraction
+func (s *Store) UpdateAllTimesToPM(ctx context.Context) (int64, error) {
+	const q = `
+UPDATE shows
+SET start = start + INTERVAL '12 hours',
+    updated_at = NOW()
+WHERE start IS NOT NULL
+  AND EXTRACT(HOUR FROM start AT TIME ZONE 'America/Chicago') < 12;
+`
+	result, err := s.pool.Exec(ctx, q)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
+// UpdateAllTimesToPMForce updates ALL show start times to PM regardless of current state
+// This ensures every time is in the PM range (12:00 PM - 11:59 PM)
+func (s *Store) UpdateAllTimesToPMForce(ctx context.Context) (int64, error) {
+	const q = `
+UPDATE shows
+SET start = CASE 
+    WHEN EXTRACT(HOUR FROM start AT TIME ZONE 'UTC') < 12 THEN 
+        start + INTERVAL '12 hours'
+    ELSE 
+        start
+    END,
+    updated_at = NOW()
+WHERE start IS NOT NULL
+  AND EXTRACT(HOUR FROM start AT TIME ZONE 'UTC') < 12;
+`
+	result, err := s.pool.Exec(ctx, q)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
+// MoveFutureShowsBackOneDay moves all future shows back by 1 day
+func (s *Store) MoveFutureShowsBackOneDay(ctx context.Context) (int64, error) {
+	const q = `
+UPDATE shows
+SET start = start - INTERVAL '1 day',
+    updated_at = NOW()
+WHERE start IS NOT NULL
+  AND start > NOW();
+`
+	result, err := s.pool.Exec(ctx, q)
+	if err != nil {
+		return 0, err
+	}
+	return result.RowsAffected(), nil
+}
+
 // In showstore/store.go
 func (s *Store) Drop(ctx context.Context) error {
 	const q = `
@@ -204,4 +310,74 @@ DROP TABLE IF EXISTS shows;
 `
 	_, err := s.pool.Exec(ctx, q)
 	return err
+}
+
+// ExistsByDateAndSummary checks if a show exists with the same start date and summary
+func (s *Store) ExistsByDateAndSummary(ctx context.Context, start *time.Time, summary string) (bool, error) {
+	if start == nil {
+		return false, nil
+	}
+	const q = `
+SELECT EXISTS(
+  SELECT 1 FROM shows 
+  WHERE DATE(start) = DATE($1::TIMESTAMPTZ) AND summary = $2
+)
+`
+	var exists bool
+	err := s.pool.QueryRow(ctx, q, start, summary).Scan(&exists)
+	return exists, err
+}
+
+// InsertIfNew inserts a show only if no show exists with the same date and summary.
+// Returns (inserted bool, error).
+func (s *Store) InsertIfNew(ctx context.Context, e icalplayers.Event) (bool, error) {
+	// Check if already exists
+	exists, err := s.ExistsByDateAndSummary(ctx, e.Start, e.Summary)
+	if err != nil {
+		return false, err
+	}
+	if exists {
+		return false, nil // Already exists, skip
+	}
+
+	tx, err := s.pool.BeginTx(ctx, pgx.TxOptions{})
+	if err != nil {
+		return false, err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback(ctx)
+		}
+	}()
+
+	const insertShow = `
+INSERT INTO shows (uid, summary, description, url, post_image_url, start, players, teams, created_at, updated_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())
+ON CONFLICT (uid) DO NOTHING
+`
+	result, err := tx.Exec(ctx, insertShow,
+		e.UID,
+		e.Summary,
+		e.Description,
+		e.URL,
+		e.PostImageURL,
+		e.Start,
+		strSliceToTextArray(e.Players),
+		strSliceToTextArray(e.Teams),
+	)
+	if err != nil {
+		return false, err
+	}
+
+	// Check if row was actually inserted
+	if result.RowsAffected() == 0 {
+		_ = tx.Rollback(ctx)
+		return false, nil
+	}
+
+	if err = syncShowTeams(ctx, tx, e.UID, e.TeamIDs); err != nil {
+		return false, err
+	}
+
+	return true, tx.Commit(ctx)
 }

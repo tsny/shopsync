@@ -22,6 +22,7 @@ import (
 func main() {
 	src := flag.String("src", "", "Path or URL to an .ics file. Use '-' to read from stdin")
 	postURL := flag.String("post-url", "", "testing param: grabs image from given post URL")
+	deletePastEvents := flag.Bool("delete-past-events", false, "If set, delete past events from the database")
 	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
 	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
 	recreateDB := flag.Bool("recreate-db", false, "If set, drop and recreate the database tables")
@@ -134,7 +135,8 @@ func main() {
 			log.Fatal(err)
 		}
 		fmt.Printf("Database recreated.\n")
-	} else {
+	} 
+	if *deletePastEvents {
 		fmt.Printf("Deleting past events...\n")
 		if err := store.DeletePastEvents(ctx); err != nil {
 			log.Fatal(err)
