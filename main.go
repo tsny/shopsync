@@ -13,14 +13,17 @@ import (
 	"os"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	"github.com/joho/godotenv"
 	"github.com/tsny/shopsync/pkg/icalplayers"
 	"github.com/tsny/shopsync/pkg/showstore"
+	"github.com/tsny/shopsync/pkg/wpevents"
 	"github.com/tsny/shopsync/pkg/wpimg"
 )
 
 func main() {
 	src := flag.String("src", "", "Path or URL to an .ics file. Use '-' to read from stdin")
+	wpURL := flag.String("wp", "", "URL to WordPress tribe/events API (e.g. https://theimprovshop.com/wp-json/tribe/events/v1/events)")
 	postURL := flag.String("post-url", "", "testing param: grabs image from given post URL")
 	deletePastEvents := flag.Bool("delete-past-events", false, "If set, delete past events from the database")
 	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
@@ -61,23 +64,41 @@ func main() {
 	}
 	defer store.Close()
 
-	if *src == "" {
-		exitErr(errors.New("missing -src"))
-	}
-
 	var events []icalplayers.Event
-	isUrl := isURL(*src)
-	if isUrl {
-		fmt.Printf("Reading ICS from URL: %s\n", *src)
-		events, err = icalplayers.FromURL(context.Background(), *src, http.DefaultClient, nil)
+
+	if *wpURL != "" {
+		// Fetch events from the WordPress tribe/events API
+		events, err = wpevents.FetchAll(ctx, *wpURL)
 		if err != nil {
-			exitErr(err)
+			exitErr(fmt.Errorf("wp fetch: %w", err))
 		}
 	} else {
-		fmt.Printf("Reading ICS from file: %s\n", *src)
-		events, err = icalplayers.FromFile(*src, nil)
-		if err != nil {
-			exitErr(err)
+		var calendarURL string
+		if *src == "" {
+			// Query the page to find the Google Calendar URL
+			fmt.Println("No -src provided, fetching calendar URL from page...")
+			pageURL := "https://theimprovshop.com/show-calendar/list/?tribe_paged=1&tribe_event_display=list&tribe_venues=233"
+			calendarURL, err = extractGoogleCalendarURL(ctx, pageURL)
+			if err != nil {
+				exitErr(fmt.Errorf("failed to extract calendar URL: %w", err))
+			}
+			fmt.Printf("Found calendar URL: %s\n", calendarURL)
+		} else {
+			calendarURL = *src
+		}
+
+		if isURL(calendarURL) {
+			fmt.Printf("Reading ICS from URL: %s\n", calendarURL)
+			events, err = icalplayers.FromURL(context.Background(), calendarURL, http.DefaultClient, nil)
+			if err != nil {
+				exitErr(err)
+			}
+		} else {
+			fmt.Printf("Reading ICS from file: %s\n", calendarURL)
+			events, err = icalplayers.FromFile(calendarURL, nil)
+			if err != nil {
+				exitErr(err)
+			}
 		}
 	}
 
@@ -143,12 +164,32 @@ func main() {
 		}
 	}
 
-	for _, e := range events {
-		if err := store.Upsert(ctx, e); err != nil {
-			exitErr(err)
+	if *wpURL != "" {
+		// Use InsertIfNew to avoid overwriting or duplicating events already imported via ICS.
+		// Deduplication is by (date, summary) so collisions across different source IDs are caught.
+		inserted := 0
+		skipped := 0
+		for _, e := range events {
+			ok, err := store.InsertIfNew(ctx, e)
+			if err != nil {
+				exitErr(err)
+			}
+			if ok {
+				inserted++
+			} else {
+				skipped++
+				fmt.Printf("Skipped duplicate: %s (%s)\n", e.Summary, e.Start)
+			}
 		}
+		fmt.Printf("Inserted %d new events, skipped %d duplicates.\n", inserted, skipped)
+	} else {
+		for _, e := range events {
+			if err := store.Upsert(ctx, e); err != nil {
+				exitErr(err)
+			}
+		}
+		fmt.Printf("Stored %d events.\n", len(events))
 	}
-	fmt.Printf("Stored %d events.\n", len(events))
 }
 
 func isURL(s string) bool {
@@ -193,4 +234,73 @@ func ReadLinesToArray(path string) ([]string, error) {
 		return nil, err
 	}
 	return lines, nil
+}
+
+// extractGoogleCalendarURL fetches the page and extracts the calendar URL from the Google Calendar link
+func extractGoogleCalendarURL(ctx context.Context, pageURL string) (string, error) {
+	req, err := http.NewRequestWithContext(ctx, "GET", pageURL, nil)
+	if err != nil {
+		return "", err
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+
+	doc, err := goquery.NewDocumentFromReader(resp.Body)
+	if err != nil {
+		return "", err
+	}
+
+	// Find the Google Calendar link
+	var calendarURL string
+	doc.Find("a").Each(func(i int, s *goquery.Selection) {
+		text := strings.TrimSpace(s.Text())
+		if strings.Contains(text, "Google Calendar") {
+			href, exists := s.Attr("href")
+			if exists {
+				calendarURL = href
+			}
+		}
+	})
+
+	if calendarURL == "" {
+		return "", errors.New("Google Calendar link not found on page")
+	}
+
+	// Parse the Google Calendar URL to extract the cid parameter
+	parsedURL, err := url.Parse(calendarURL)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse Google Calendar URL: %w", err)
+	}
+
+	cid := parsedURL.Query().Get("cid")
+	if cid == "" {
+		return "", errors.New("cid parameter not found in Google Calendar URL")
+	}
+
+	// URL decode the cid parameter
+	decodedCID, err := url.QueryUnescape(cid)
+	if err != nil {
+		return "", fmt.Errorf("failed to decode cid parameter: %w", err)
+	}
+
+	// Parse the decoded webcal URL
+	webcalURL, err := url.Parse(decodedCID)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse webcal URL: %w", err)
+	}
+
+	// Convert webcal:// to https:// to get the actual .ics file URL
+	if webcalURL.Scheme == "webcal" {
+		webcalURL.Scheme = "https"
+	}
+
+	return webcalURL.String(), nil
 }

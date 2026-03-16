@@ -1,0 +1,1911 @@
+{
+  "events": [
+    {
+      "id": 52489,
+      "global_id": "theimprovshop.com?id=52489",
+      "global_id_lineage": [
+        "theimprovshop.com?id=52489"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-12-17 10:29:20",
+      "date_utc": "2025-12-17 16:29:20",
+      "modified": "2026-01-15 15:10:15",
+      "modified_utc": "2026-01-15 21:10:15",
+      "url": "https://theimprovshop.com/show/poc-improv-league-2/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/52489",
+      "title": "POC Improv League",
+      "description": "<div>The first and only improv league with all Person of Color players in St. Louis!</div>\n<div></div>\n<div>Three new independent teams will debut for a night of joy, color, comedy, and unity.</div>\n<div></div>\n<div>We&#8217;re in this together &lt;3</div>",
+      "excerpt": "",
+      "slug": "poc-improv-league-2",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM.png",
+        "id": 48459,
+        "extension": "png",
+        "width": 1706,
+        "height": 960,
+        "filesize": 289325,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 540,
+            "mime-type": "image/png",
+            "filesize": 49312,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-960x540.png"
+          },
+          "large": {
+            "width": 1100,
+            "height": 619,
+            "mime-type": "image/png",
+            "filesize": 57941,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-1100x619.png"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 281,
+            "mime-type": "image/png",
+            "filesize": 25025,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-500x281.png"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 432,
+            "mime-type": "image/png",
+            "filesize": 38934,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-768x432.png"
+          },
+          "1536x1536": {
+            "width": 1536,
+            "height": 864,
+            "mime-type": "image/png",
+            "filesize": 84089,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-1536x864.png"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 540,
+            "mime-type": "image/png",
+            "filesize": 49312,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-960x540.png"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/png",
+            "filesize": 52284,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-960x640.png"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/png",
+            "filesize": 16335,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-300x300.png"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 338,
+            "mime-type": "image/png",
+            "filesize": 30196,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-600x338.png"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/png",
+            "filesize": 7460,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/Screenshot-2025-07-07-at-10.52.24 PM-100x100.png"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-17 19:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "19",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-17 20:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "20",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-18 01:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "01",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-18 02:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "02",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "&#036;8.00",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": [
+          "8"
+        ]
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": [
+        "woo"
+      ]
+    },
+    {
+      "id": 53345,
+      "global_id": "theimprovshop.com?id=53345",
+      "global_id_lineage": [
+        "theimprovshop.com?id=53345"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2026-01-06 08:10:14",
+      "date_utc": "2026-01-06 14:10:14",
+      "modified": "2026-01-06 08:10:14",
+      "modified_utc": "2026-01-06 14:10:14",
+      "url": "https://theimprovshop.com/show/no-edit-the-improvised-one-act-play/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/53345",
+      "title": "No Edit: The Improvised One Act Play",
+      "description": "<p>Fancy a night at the theater? Reserve your seat, because this is opening AND closing night.</p>\n<p>Who are the actors? Impossible to say. What play will they perform? It doesn’t exist. And what will those actors reveal about their process after final bows? Join Touch Baseball as they lose themselves inside of actors playing characters in an improvised one-act play!</p>",
+      "excerpt": "",
+      "slug": "no-edit-the-improvised-one-act-play",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2.png",
+        "id": 53346,
+        "extension": "png",
+        "width": 1080,
+        "height": 696,
+        "filesize": 638609,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/png",
+            "filesize": 260708,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-960x619.png"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/png",
+            "filesize": 83661,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-500x322.png"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/png",
+            "filesize": 177331,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-768x495.png"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/png",
+            "filesize": 260708,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-960x619.png"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/png",
+            "filesize": 272666,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-960x640.png"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/png",
+            "filesize": 59336,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-300x300.png"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/png",
+            "filesize": 114928,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-600x387.png"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/png",
+            "filesize": 9613,
+            "url": "https://theimprovshop.com/wp-content/uploads/2026/01/Asterisk-Holidays-Website-2-100x100.png"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-17 19:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "19",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-17 20:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "20",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-18 01:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "01",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-18 02:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "02",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "&#036;15.00",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": [
+          "15"
+        ]
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": [
+        "woo"
+      ]
+    },
+    {
+      "id": 52518,
+      "global_id": "theimprovshop.com?id=52518",
+      "global_id_lineage": [
+        "theimprovshop.com?id=52518"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-12-17 10:53:49",
+      "date_utc": "2025-12-17 16:53:49",
+      "modified": "2025-12-17 10:53:49",
+      "modified_utc": "2025-12-17 16:53:49",
+      "url": "https://theimprovshop.com/show/loose-ends/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/52518",
+      "title": "Loose Ends",
+      "description": "<p>Three Teams. Three solo improvisers. One night only. Each team has been paired with a solo performer and given one week to stitch together something brand new. What happens when familiar ensembles are thrown into a brand new blend? Come see three never-before seen teams &#8211; built from scratch and performed live for the first (and only) time!</p>",
+      "excerpt": "",
+      "slug": "loose-ends",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema.png",
+        "id": 52509,
+        "extension": "png",
+        "width": 1080,
+        "height": 696,
+        "filesize": 1440152,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/png",
+            "filesize": 1078804,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-960x619.png"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/png",
+            "filesize": 309078,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-500x322.png"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/png",
+            "filesize": 706847,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-768x495.png"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/png",
+            "filesize": 1078804,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-960x619.png"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/png",
+            "filesize": 1111596,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-960x640.png"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/png",
+            "filesize": 176436,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-300x300.png"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/png",
+            "filesize": 440145,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-600x387.png"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/png",
+            "filesize": 21846,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/Loose-Ends-Artwork-Cassandra-Ema-100x100.png"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-17 21:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "21",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-17 22:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "22",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-18 03:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "03",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-18 04:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "04",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "&#036;5.00",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": [
+          "5"
+        ]
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": [
+        "woo"
+      ]
+    },
+    {
+      "id": 53051,
+      "global_id": "theimprovshop.com?id=53051",
+      "global_id_lineage": [
+        "theimprovshop.com?id=53051"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2026-01-02 10:44:33",
+      "date_utc": "2026-01-02 16:44:33",
+      "modified": "2026-01-15 15:12:14",
+      "modified_utc": "2026-01-15 21:12:14",
+      "url": "https://theimprovshop.com/show/80085-4-u/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/53051",
+      "title": "80085 4 U",
+      "description": "<p>To everyone who puts in a hard day’s work, this show is for you. To everyone who relishes in the bizarre, this show is for you.</p>\n<p>No intermission (probably), no nudes (yet), lots of confessions (maybe even from you), one team (unless there are more). Come on out and get something off your chest. We’ll get something off ours, too.</p>\n<p>Whether you’ve got em, want em, or haven’t thought about em, this 80085 for you.</p>",
+      "excerpt": "",
+      "slug": "80085-4-u",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083.jpeg",
+        "id": 49078,
+        "extension": "jpeg",
+        "width": 1536,
+        "height": 1024,
+        "filesize": 833002,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 167797,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-960x640.jpeg"
+          },
+          "large": {
+            "width": 1100,
+            "height": 733,
+            "mime-type": "image/jpeg",
+            "filesize": 229793,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-1100x733.jpeg"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 333,
+            "mime-type": "image/jpeg",
+            "filesize": 35238,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-500x333.jpeg"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 512,
+            "mime-type": "image/jpeg",
+            "filesize": 94158,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-768x512.jpeg"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 167797,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-960x640.jpeg"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 167797,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-960x640.jpeg"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 19149,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-300x300.jpeg"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 400,
+            "mime-type": "image/jpeg",
+            "filesize": 53095,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-600x400.jpeg"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/jpeg",
+            "filesize": 2691,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/07/IMG_3083-100x100.jpeg"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-17 21:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "21",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-17 22:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "17",
+        "hour": "22",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-18 03:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "03",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-18 04:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "18",
+        "hour": "04",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "&#036;5.00",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": [
+          "5"
+        ]
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": [
+        "woo"
+      ]
+    },
+    {
+      "id": 51345,
+      "global_id": "theimprovshop.com?id=51345",
+      "global_id_lineage": [
+        "theimprovshop.com?id=51345"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-10-29 11:30:12",
+      "date_utc": "2025-10-29 16:30:12",
+      "modified": "2025-10-29 11:30:12",
+      "modified_utc": "2025-10-29 16:30:12",
+      "url": "https://theimprovshop.com/show/teams-level-2-student-showcase-22/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/51345",
+      "title": "Teams Level 2 Student Showcase",
+      "description": "<p>Join our Teams Level 2 students as they showcase their talents every Monday at 7pm in mainstage!</p>\n<p>This is a free event!</p>",
+      "excerpt": "",
+      "slug": "teams-level-2-student-showcase-22",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM.jpg",
+        "id": 51325,
+        "extension": "jpg",
+        "width": 1080,
+        "height": 696,
+        "filesize": 645022,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 173521,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-960x619.jpg"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/jpeg",
+            "filesize": 67480,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-500x322.jpg"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/jpeg",
+            "filesize": 125141,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-768x495.jpg"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 173521,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-960x619.jpg"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 177209,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-960x640.jpg"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 49401,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-300x300.jpg"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/jpeg",
+            "filesize": 87211,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-600x387.jpg"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/jpeg",
+            "filesize": 21564,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/09/SIGNAGE-TL2student-showcase-696x1080-NO-JAM-100x100.jpg"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-19 19:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "19",
+        "hour": "19",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-19 20:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "19",
+        "hour": "20",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-20 01:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "20",
+        "hour": "01",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-20 02:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "20",
+        "hour": "02",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": []
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        },
+        {
+          "name": "Student Showcase",
+          "slug": "student-showcase",
+          "term_group": 0,
+          "term_taxonomy_id": 41,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 31,
+          "filter": "raw",
+          "id": 41,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/41",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": false
+    },
+    {
+      "id": 51363,
+      "global_id": "theimprovshop.com?id=51363",
+      "global_id_lineage": [
+        "theimprovshop.com?id=51363"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-10-29 11:47:09",
+      "date_utc": "2025-10-29 16:47:09",
+      "modified": "2025-10-29 11:47:09",
+      "modified_utc": "2025-10-29 16:47:09",
+      "url": "https://theimprovshop.com/show/teams-level-1-student-showcase-7/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/51363",
+      "title": "Teams Level 1 Student Showcase",
+      "description": "<p>Join our Teams Level 1 students every Monday at 7pm on sidestage as they showcase their talents over the 8-weeks of their class.</p>\n<p>This is a free event!</p>",
+      "excerpt": "",
+      "slug": "teams-level-1-student-showcase-7",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1.jpg",
+        "id": 30763,
+        "extension": "jpg",
+        "width": 1080,
+        "height": 696,
+        "filesize": 389508,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 107973,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-960x619.jpg"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/jpeg",
+            "filesize": 54068,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-500x322.jpg"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/jpeg",
+            "filesize": 82988,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-768x495.jpg"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 107973,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-960x619.jpg"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 110227,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-960x640.jpg"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 43758,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-300x300.jpg"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/jpeg",
+            "filesize": 64768,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-600x387.jpg"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/jpeg",
+            "filesize": 23164,
+            "url": "https://theimprovshop.com/wp-content/uploads/2023/04/SIGNAGE-TL1side-student-showcase-696x1080-1-100x100.jpg"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-19 19:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "19",
+        "hour": "19",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-19 20:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "19",
+        "hour": "20",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-20 01:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "20",
+        "hour": "01",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-20 02:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "20",
+        "hour": "02",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": []
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        },
+        {
+          "name": "Student Showcase",
+          "slug": "student-showcase",
+          "term_group": 0,
+          "term_taxonomy_id": 41,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 31,
+          "filter": "raw",
+          "id": 41,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/41",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": false
+    },
+    {
+      "id": 52245,
+      "global_id": "theimprovshop.com?id=52245",
+      "global_id_lineage": [
+        "theimprovshop.com?id=52245"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-12-08 13:43:09",
+      "date_utc": "2025-12-08 19:43:09",
+      "modified": "2025-12-17 10:10:15",
+      "modified_utc": "2025-12-17 16:10:15",
+      "url": "https://theimprovshop.com/show/the-gift-2/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/52245",
+      "title": "The Gift",
+      "description": "<p>What’s in the box?! Three improv teams take turns gifting each other unusual physical objects. Whatever they receive, no matter how weird, must inspire their entire performance. Come see what strange ideas they unwrap!</p>\n<p>This week&#8217;s teams:<br />\nEmpress, 3rd Wheel, The Odd Throuple</p>\n<p>This is a free event!</p>",
+      "excerpt": "",
+      "slug": "the-gift-2",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/12/the-gift_web-graphic.png",
+        "id": 52243,
+        "extension": "png",
+        "width": 541,
+        "height": 348,
+        "filesize": 188411,
+        "sizes": {
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/png",
+            "filesize": 41454,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/the-gift_web-graphic-500x322.png"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/png",
+            "filesize": 26579,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/the-gift_web-graphic-300x300.png"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/png",
+            "filesize": 6721,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/12/the-gift_web-graphic-100x100.png"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-19 21:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "19",
+        "hour": "21",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-19 22:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "19",
+        "hour": "22",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-20 03:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "20",
+        "hour": "03",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-20 04:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "20",
+        "hour": "04",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": []
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": false
+    },
+    {
+      "id": 51948,
+      "global_id": "theimprovshop.com?id=51948",
+      "global_id_lineage": [
+        "theimprovshop.com?id=51948"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-11-25 12:29:51",
+      "date_utc": "2025-11-25 18:29:51",
+      "modified": "2025-11-26 08:31:07",
+      "modified_utc": "2025-11-26 14:31:07",
+      "url": "https://theimprovshop.com/show/house-team-night-jam-6/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/51948",
+      "title": "House Team Night &#038; Jam",
+      "description": "<p>Three Improv Shop House Teams take the stage! Each week you’ll see different styles and flavors of longform improv, all in a nice little three set package. Stick around afterwards for The Jam for your opportunity to play along, or just sit back and watch!</p>\n<p>This week’s teams:<br />\nLong Pigs, Bombadil, Lover Boy</p>",
+      "excerpt": "",
+      "slug": "house-team-night-jam-6",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy.jpg",
+        "id": 51928,
+        "extension": "jpg",
+        "width": 1080,
+        "height": 696,
+        "filesize": 521108,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 129602,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-960x619.jpg"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/jpeg",
+            "filesize": 51179,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-500x322.jpg"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/jpeg",
+            "filesize": 93152,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-768x495.jpg"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 129602,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-960x619.jpg"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 131719,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-960x640.jpg"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 36299,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-300x300.jpg"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/jpeg",
+            "filesize": 65956,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-600x387.jpg"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/jpeg",
+            "filesize": 15047,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/11/house-team-night-2026-copy-100x100.jpg"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-22 19:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "22",
+        "hour": "19",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-22 20:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "22",
+        "hour": "20",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-23 01:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "23",
+        "hour": "01",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-23 02:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "23",
+        "hour": "02",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "&#036;15.00",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": [
+          "15"
+        ]
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": [
+        "woo"
+      ]
+    },
+    {
+      "id": 52275,
+      "global_id": "theimprovshop.com?id=52275",
+      "global_id_lineage": [
+        "theimprovshop.com?id=52275"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-12-08 14:56:14",
+      "date_utc": "2025-12-08 20:56:14",
+      "modified": "2025-12-08 14:56:14",
+      "modified_utc": "2025-12-08 20:56:14",
+      "url": "https://theimprovshop.com/show/the-menagerie-8/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/52275",
+      "title": "The Menagerie",
+      "description": "<p>Come one! Come all! and catch three local improv teams as they perform in front of a live audience. Just like a zoo!&#8230;except there&#8217;s no cages or fish tanks.</p>",
+      "excerpt": "",
+      "slug": "the-menagerie-8",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d.jpg",
+        "id": 48377,
+        "extension": "jpg",
+        "width": 1080,
+        "height": 696,
+        "filesize": 187300,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 123974,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-960x619.jpg"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/jpeg",
+            "filesize": 40675,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-500x322.jpg"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/jpeg",
+            "filesize": 83921,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-768x495.jpg"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 123974,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-960x619.jpg"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 127022,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-960x640.jpg"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 22962,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-300x300.jpg"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/jpeg",
+            "filesize": 55293,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-600x387.jpg"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/jpeg",
+            "filesize": 4247,
+            "url": "https://theimprovshop.com/wp-content/uploads/2025/06/826334f4-6984-43cf-a01c-d2136cec877d-100x100.jpg"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-22 19:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "22",
+        "hour": "19",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-22 20:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "22",
+        "hour": "20",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-23 01:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "23",
+        "hour": "01",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-23 02:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "23",
+        "hour": "02",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "&#036;8.00",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": [
+          "8"
+        ]
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": [
+        "woo"
+      ]
+    },
+    {
+      "id": 52977,
+      "global_id": "theimprovshop.com?id=52977",
+      "global_id_lineage": [
+        "theimprovshop.com?id=52977"
+      ],
+      "author": "1",
+      "status": "publish",
+      "date": "2025-12-31 10:55:59",
+      "date_utc": "2025-12-31 16:55:59",
+      "modified": "2026-01-15 08:37:23",
+      "modified_utc": "2026-01-15 14:37:23",
+      "url": "https://theimprovshop.com/show/the-merry-go-round-4/",
+      "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/52977",
+      "title": "The Merry-Go-Round",
+      "description": "<p><img decoding=\"async\" class=\"an1\" draggable=\"false\" src=\"https://fonts.gstatic.com/s/e/notoemoji/15.1/1f3ad/32.png\" alt=\"🎭\" data-emoji=\"🎭\" aria-label=\"🎭\" /><img decoding=\"async\" class=\"an1\" draggable=\"false\" src=\"https://fonts.gstatic.com/s/e/notoemoji/15.1/1f31f/32.png\" alt=\"🌟\" data-emoji=\"🌟\" aria-label=\"🌟\" /> Step right up for The Merry-Go-Round, an improv extravaganza! Four local improv teams go round and round and take you on a ride of unscripted fun. Don’t miss the show where anything can happen—except boredom! <img decoding=\"async\" class=\"an1\" draggable=\"false\" src=\"https://fonts.gstatic.com/s/e/notoemoji/15.1/1f3aa/32.png\" alt=\"🎪\" data-emoji=\"🎪\" aria-label=\"🎪\" /><img decoding=\"async\" class=\"an1\" draggable=\"false\" src=\"https://fonts.gstatic.com/s/e/notoemoji/15.1/2728/32.png\" alt=\"✨\" data-emoji=\"✨\" aria-label=\"✨\" /></p>\n<p>This is a free event!</p>",
+      "excerpt": "",
+      "slug": "the-merry-go-round-4",
+      "image": {
+        "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round.jpg",
+        "id": 43530,
+        "extension": "jpg",
+        "width": 1080,
+        "height": 696,
+        "filesize": 961556,
+        "sizes": {
+          "medium": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 268693,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-960x619.jpg"
+          },
+          "thumbnail": {
+            "width": 500,
+            "height": 322,
+            "mime-type": "image/jpeg",
+            "filesize": 105094,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-500x322.jpg"
+          },
+          "medium_large": {
+            "width": 768,
+            "height": 495,
+            "mime-type": "image/jpeg",
+            "filesize": 194565,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-768x495.jpg"
+          },
+          "post-thumbnail": {
+            "width": 960,
+            "height": 619,
+            "mime-type": "image/jpeg",
+            "filesize": 268693,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-960x619.jpg"
+          },
+          "home-slider": {
+            "width": 960,
+            "height": 640,
+            "mime-type": "image/jpeg",
+            "filesize": 274099,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-960x640.jpg"
+          },
+          "gform-image-choice-sm": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 66909,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-300x300.jpg"
+          },
+          "gform-image-choice-md": {
+            "width": 400,
+            "height": 400,
+            "mime-type": "image/jpeg",
+            "filesize": 97932,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-400x400.jpg"
+          },
+          "gform-image-choice-lg": {
+            "width": 600,
+            "height": 600,
+            "mime-type": "image/jpeg",
+            "filesize": 173077,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-600x600.jpg"
+          },
+          "woocommerce_thumbnail": {
+            "width": 300,
+            "height": 300,
+            "mime-type": "image/jpeg",
+            "filesize": 66909,
+            "uncropped": false,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-300x300.jpg"
+          },
+          "woocommerce_single": {
+            "width": 600,
+            "height": 387,
+            "mime-type": "image/jpeg",
+            "filesize": 136452,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-600x387.jpg"
+          },
+          "woocommerce_gallery_thumbnail": {
+            "width": 100,
+            "height": 100,
+            "mime-type": "image/jpeg",
+            "filesize": 22818,
+            "url": "https://theimprovshop.com/wp-content/uploads/2024/12/merry-go-round-100x100.jpg"
+          }
+        }
+      },
+      "all_day": false,
+      "start_date": "2026-01-22 21:00:00",
+      "start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "22",
+        "hour": "21",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "end_date": "2026-01-22 22:30:00",
+      "end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "22",
+        "hour": "22",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "utc_start_date": "2026-01-23 03:00:00",
+      "utc_start_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "23",
+        "hour": "03",
+        "minutes": "00",
+        "seconds": "00"
+      },
+      "utc_end_date": "2026-01-23 04:30:00",
+      "utc_end_date_details": {
+        "year": "2026",
+        "month": "01",
+        "day": "23",
+        "hour": "04",
+        "minutes": "30",
+        "seconds": "00"
+      },
+      "timezone": "America/Chicago",
+      "timezone_abbr": "CST",
+      "cost": "",
+      "cost_details": {
+        "currency_symbol": "",
+        "currency_code": "",
+        "currency_position": "",
+        "values": []
+      },
+      "website": "",
+      "show_map": false,
+      "show_map_link": true,
+      "hide_from_listings": false,
+      "sticky": false,
+      "featured": false,
+      "categories": [
+        {
+          "name": "Improvisation",
+          "slug": "improvisation",
+          "term_group": 0,
+          "term_taxonomy_id": 20,
+          "taxonomy": "tribe_events_cat",
+          "description": "",
+          "parent": 0,
+          "count": 225,
+          "filter": "raw",
+          "id": 20,
+          "urls": {
+            "self": "https://theimprovshop.com/wp-json/tribe/events/v1/categories/20",
+            "collection": "https://theimprovshop.com/wp-json/tribe/events/v1/categories"
+          }
+        }
+      ],
+      "tags": [],
+      "venue": {
+        "id": 233,
+        "author": "1",
+        "status": "publish",
+        "date": "2018-08-26 17:44:26",
+        "date_utc": "2018-08-26 22:44:26",
+        "modified": "2018-08-26 17:44:26",
+        "modified_utc": "2018-08-26 22:44:26",
+        "url": "https://theimprovshop.com/venue/st-louis/",
+        "venue": "St. Louis",
+        "slug": "st-louis",
+        "address": "3960 Chouteau Ave.",
+        "city": "St. Louis",
+        "country": "United States",
+        "state": "MO",
+        "zip": "63110",
+        "stateprovince": "MO",
+        "show_map": true,
+        "show_map_link": true,
+        "global_id": "theimprovshop.com?id=233",
+        "global_id_lineage": [
+          "theimprovshop.com?id=233"
+        ]
+      },
+      "organizer": [],
+      "custom_fields": [],
+      "ticketed": false
+    }
+  ],
+  "rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/?page=1&per_page=10&start_date=2026-01-17 00:00:00&end_date=2028-01-18 23:59:59&status=publish",
+  "next_rest_url": "https://theimprovshop.com/wp-json/tribe/events/v1/events/?per_page=10&start_date=2026-01-17+00%3A00%3A00&end_date=2028-01-18+23%3A59%3A59&status=publish&page=2",
+  "total": 98,
+  "total_pages": 10
+}

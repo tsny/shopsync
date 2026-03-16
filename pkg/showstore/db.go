@@ -317,10 +317,14 @@ func (s *Store) ExistsByDateAndSummary(ctx context.Context, start *time.Time, su
 	if start == nil {
 		return false, nil
 	}
+	// Normalize both sides: lowercase, strip non-alphanumeric, collapse whitespace.
+	// This catches HTML-entity differences, punctuation variance, and case mismatches.
 	const q = `
 SELECT EXISTS(
-  SELECT 1 FROM shows 
-  WHERE DATE(start) = DATE($1::TIMESTAMPTZ) AND summary = $2
+  SELECT 1 FROM shows
+  WHERE DATE(start) = DATE($1::TIMESTAMPTZ)
+    AND lower(regexp_replace(summary,     '[^a-zA-Z0-9 ]', '', 'g')) =
+        lower(regexp_replace($2::text,    '[^a-zA-Z0-9 ]', '', 'g'))
 )
 `
 	var exists bool
