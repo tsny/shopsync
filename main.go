@@ -25,10 +25,8 @@ func main() {
 	src := flag.String("src", "", "Path or URL to an .ics file. Use '-' to read from stdin")
 	wpURL := flag.String("wp", "", "URL to WordPress tribe/events API (e.g. https://theimprovshop.com/wp-json/tribe/events/v1/events)")
 	postURL := flag.String("post-url", "", "testing param: grabs image from given post URL")
-	deletePastEvents := flag.Bool("delete-past-events", false, "If set, delete past events from the database")
 	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
 	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
-	recreateDB := flag.Bool("recreate-db", false, "If set, drop and recreate the database tables")
 	dryRun := flag.Bool("dry-run", true, "If set, do not store events in the database")
 	flag.Parse()
 
@@ -46,10 +44,6 @@ func main() {
 		}
 		fmt.Println("Fetched image:", res.ImageURL)
 		return
-	}
-
-	if !*dryRun && *recreateDB {
-		fmt.Println("WARNING: Database will be erased and recreated.")
 	}
 
 	dbURL := os.Getenv("DATABASE_URL")
@@ -125,7 +119,7 @@ func main() {
 	}
 
 	for i, ev := range events {
-		parsedTeams := findTeams(ev.Description, teams)
+		parsedTeams := findTeamsInEventDescription(ev.Description, teams)
 		if len(parsedTeams) > 0 {
 			for _, t := range parsedTeams {
 				if t.ID == "" {
@@ -145,23 +139,6 @@ func main() {
 	if *dryRun {
 		fmt.Println("Dry run; not storing events.")
 		return
-	}
-
-	if *recreateDB {
-		fmt.Printf("Recreating database...\n")
-		if err := store.Drop(ctx); err != nil {
-			log.Fatal(err)
-		}
-		if err := store.Migrate(ctx); err != nil {
-			log.Fatal(err)
-		}
-		fmt.Printf("Database recreated.\n")
-	} 
-	if *deletePastEvents {
-		fmt.Printf("Deleting past events...\n")
-		if err := store.DeletePastEvents(ctx); err != nil {
-			log.Fatal(err)
-		}
 	}
 
 	if *wpURL != "" {
@@ -202,8 +179,8 @@ func exitErr(err error) {
 	os.Exit(1)
 }
 
-// findTeams from event description
-func findTeams(desc string, teams []showstore.Team) []showstore.Team {
+// findTeamsInEventDescription from event description
+func findTeamsInEventDescription(desc string, teams []showstore.Team) []showstore.Team {
 	var matches []showstore.Team
 	for _, t := range teams {
 		if len(t.Name) <= 4 { // skip short/generic names
