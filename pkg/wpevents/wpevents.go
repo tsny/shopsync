@@ -37,6 +37,20 @@ type apiResponse struct {
 
 var htmlTagRe = regexp.MustCompile(`<[^>]+>`)
 
+// cdnSizeRe matches the trailing /w=NNN,h=NNN (or h=NNN,w=NNN) segment on
+// Cloudflare image delivery URLs.
+var cdnSizeRe = regexp.MustCompile(`/[wh]=\d+,[wh]=\d+$`)
+
+// RewriteCdnCgiURL rewrites cdn-cgi/imagedelivery URLs so the trailing
+// width/height parameters become w=512,h=512. Non-matching URLs are returned
+// unchanged.
+func RewriteCdnCgiURL(raw string) string {
+	if !cdnSizeRe.MatchString(raw) {
+		return raw
+	}
+	return cdnSizeRe.ReplaceAllString(raw, "/w=512,h=512")
+}
+
 func stripHTML(s string) string {
 	s = htmlTagRe.ReplaceAllString(s, "")
 	s = html.UnescapeString(s)

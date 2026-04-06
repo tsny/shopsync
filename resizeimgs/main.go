@@ -11,20 +11,14 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"regexp"
 
 	"github.com/joho/godotenv"
 	"github.com/tsny/shopsync/pkg/showstore"
+	"github.com/tsny/shopsync/pkg/wpevents"
 )
 
-// cdnSizeRe matches the trailing /w=NNN,h=NNN (or h=NNN,w=NNN) segment.
-var cdnSizeRe = regexp.MustCompile(`/[wh]=\d+,[wh]=\d+$`)
-
 func rewriteURL(raw string) (string, bool) {
-	if !cdnSizeRe.MatchString(raw) {
-		return raw, false
-	}
-	rewritten := cdnSizeRe.ReplaceAllString(raw, "/w=512,h=512")
+	rewritten := wpevents.RewriteCdnCgiURL(raw)
 	return rewritten, rewritten != raw
 }
 

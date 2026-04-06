@@ -134,6 +134,12 @@ func main() {
 		}
 	}
 
+	for i, ev := range events {
+		if ev.PostImageURL != "" {
+			events[i].PostImageURL = wpevents.RewriteCdnCgiURL(ev.PostImageURL)
+		}
+	}
+
 	icalplayers.SummarizeEvents(events)
 
 	if *dryRun {
