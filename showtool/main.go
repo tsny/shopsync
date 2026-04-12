@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"sort"
 	"strings"
 	"time"
 
@@ -201,6 +202,30 @@ func matchTeams(event *Event, dbTeams []showstore.Team) {
 	event.TeamIDs = matchedIDs
 }
 
+func truncate(s string, n int) string {
+	if len(s) <= n {
+		return s
+	}
+	return s[:n] + "..."
+}
+
+func teamsEqual(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	ac, bc := make([]string, len(a)), make([]string, len(b))
+	copy(ac, a)
+	copy(bc, b)
+	sort.Strings(ac)
+	sort.Strings(bc)
+	for i := range ac {
+		if ac[i] != bc[i] {
+			return false
+		}
+	}
+	return true
+}
+
 // toIcalEvent converts local Event to icalplayers.Event for DB insertion
 func toIcalEvent(e Event) icalplayers.Event {
 	return icalplayers.Event{
@@ -368,159 +393,79 @@ func main() {
 	// Insert into database if requested
 	if *insertDB && store != nil {
 		fmt.Println("\n--- Database Insertion ---")
-		
-		// First, check what's already in the DB
-		existingShows, err := store.GetAllShows(ctx)
-		if err != nil {
-			fmt.Printf("ERROR fetching existing shows: %v\n", err)
-		} else {
-			fmt.Printf("Found %d existing shows in database\n", len(existingShows))
-			if len(existingShows) > 0 && len(existingShows) <= 10 {
-				fmt.Println("Existing shows:")
-				for _, es := range existingShows {
-					dateStr := "no date"
-					if es.Start != nil {
-						dateStr = es.Start.Format("2006-01-02")
-					}
-					fmt.Printf("  %s | %s\n", dateStr, es.Summary)
-				}
-			} else if len(existingShows) > 10 {
-				fmt.Println("Sample existing shows (first 5):")
-				for i, es := range existingShows[:5] {
-					dateStr := "no date"
-					if es.Start != nil {
-						dateStr = es.Start.Format("2006-01-02")
-					}
-					fmt.Printf("  %d. %s | %s\n", i+1, dateStr, es.Summary)
-				}
-			}
-			
-			// Test the matching function with an existing show
-			if len(existingShows) > 0 {
-				testShow := existingShows[0]
-				exists, err := store.ExistsByDateAndSummary(ctx, testShow.Start, testShow.Summary)
-				if err != nil {
-					fmt.Printf("  WARNING: Test of ExistsByDateAndSummary failed: %v\n", err)
-				} else if !exists {
-					fmt.Printf("  WARNING: ExistsByDateAndSummary returned false for existing show: %s | %s\n", 
-						testShow.Start.Format("2006-01-02"), testShow.Summary)
-				} else {
-					fmt.Printf("  ✓ Matching function verified: correctly found existing show\n")
-				}
-			}
-			fmt.Println()
-		}
 
 		if *dryRun {
-			fmt.Println("DRY RUN: Checking which shows would be inserted...")
+			fmt.Println("DRY RUN: Checking which shows would be inserted or updated...")
 		}
 
-		var inserted, skipped, errors int
-		var sampleSkipped []string
-		
-		// Build a map of existing shows for faster lookup and debugging
-		existingMap := make(map[string][]icalplayers.Event)
-		for _, es := range existingShows {
-			if es.Start != nil {
-				dateKey := es.Start.Format("2006-01-02")
-				existingMap[dateKey] = append(existingMap[dateKey], es)
-			}
-		}
-		
+		var inserted, updated, skipped, errs int
+
 		for _, e := range events {
 			icalEvent := toIcalEvent(e)
 
-			if *dryRun {
-				// Check if it would be inserted
-				exists, err := store.ExistsByDateAndSummary(ctx, e.Start, e.Summary)
-				if err != nil {
-					fmt.Printf("  ERROR checking %s: %v\n", e.Summary, err)
-					errors++
-					continue
-				}
-				
-				// Also manually check for debugging
-				var manualMatch bool
-				if e.Start != nil {
-					dateKey := e.Start.Format("2006-01-02")
-					for _, es := range existingMap[dateKey] {
-						if es.Summary == e.Summary {
-							manualMatch = true
-							break
-						}
-					}
-				}
-				
-				if exists {
-					skipped++
-					if len(sampleSkipped) < 10 {
-						sampleSkipped = append(sampleSkipped, fmt.Sprintf("%s | %s", e.Start.Format("2006-01-02"), e.Summary))
-					}
-					if manualMatch != exists && len(sampleSkipped) <= 5 {
-						fmt.Printf("  DEBUG: DB says exists=%v, manual check=%v for %s | %s\n", exists, manualMatch, e.Start.Format("2006-01-02"), e.Summary)
-					}
-				} else {
+			existing, err := store.FindByDateAndSummary(ctx, e.Start, e.Summary)
+			if err != nil {
+				fmt.Printf("  ERROR looking up %s: %v\n", e.Summary, err)
+				errs++
+				continue
+			}
+
+			if existing == nil {
+				// New show
+				if *dryRun {
 					inserted++
 					if inserted <= 10 {
 						fmt.Printf("  WOULD INSERT: %s | %s\n", e.Start.Format("2006-01-02"), e.Summary)
 					}
+				} else {
+					wasInserted, err := store.InsertIfNew(ctx, icalEvent)
+					if err != nil {
+						fmt.Printf("  ERROR inserting %s: %v\n", e.Summary, err)
+						errs++
+						continue
+					}
+					if wasInserted {
+						inserted++
+						fmt.Printf("  INSERTED: %s | %s\n", e.Start.Format("2006-01-02"), e.Summary)
+					}
 				}
 			} else {
-				// Actually insert
-				wasInserted, err := store.InsertIfNew(ctx, icalEvent)
-				if err != nil {
-					fmt.Printf("  ERROR inserting %s: %v\n", e.Summary, err)
-					errors++
+				// Existing show — check if description or teams changed
+				descChanged := existing.Description != icalEvent.Description
+				teamsChanged := !teamsEqual(existing.Teams, icalEvent.Teams)
+				if !descChanged && !teamsChanged {
+					skipped++
+					fmt.Printf("  UNCHANGED: %s | %s\n", e.Start.Format("2006-01-02"), e.Summary)
 					continue
 				}
-				if wasInserted {
-					inserted++
-					fmt.Printf("  INSERTED: %s | %s\n", e.Start.Format("2006-01-02"), e.Summary)
-				} else {
-					skipped++
+				verb := map[bool]string{true: "WOULD UPDATE", false: "UPDATED"}[*dryRun]
+				fmt.Printf("  %s: %s | %s\n", verb, e.Start.Format("2006-01-02"), e.Summary)
+				if descChanged {
+					fmt.Printf("    description: %q\n              -> %q\n",
+						truncate(existing.Description, 80), truncate(icalEvent.Description, 80))
 				}
+				if teamsChanged {
+					fmt.Printf("    teams: %v -> %v\n", existing.Teams, icalEvent.Teams)
+				}
+				if !*dryRun {
+					if err := store.UpdateDescriptionAndTeams(ctx, existing.UID, icalEvent.Description, icalEvent.Teams, icalEvent.TeamIDs); err != nil {
+						fmt.Printf("    ERROR: %v\n", err)
+						errs++
+						continue
+					}
+				}
+				updated++
 			}
 		}
 
+		verb := map[bool]string{true: "Would insert", false: "Inserted"}[*dryRun]
+		verbU := map[bool]string{true: "Would update", false: "Updated"}[*dryRun]
 		fmt.Printf("\nResults:\n")
-		fmt.Printf("  %s: %d\n", map[bool]string{true: "Would insert", false: "Inserted"}[*dryRun], inserted)
-		fmt.Printf("  Skipped (already exist): %d\n", skipped)
-		if len(sampleSkipped) > 0 {
-			fmt.Println("  Sample skipped shows:")
-			for _, s := range sampleSkipped {
-				fmt.Printf("    - %s\n", s)
-			}
-		} else if skipped == 0 && len(existingShows) > 0 {
-			// Show date range of existing shows vs TSV shows
-			if len(events) > 0 && len(existingShows) > 0 {
-				var existingDates []time.Time
-				for _, es := range existingShows {
-					if es.Start != nil {
-						existingDates = append(existingDates, *es.Start)
-					}
-				}
-				if len(existingDates) > 0 {
-					// Sort to get min/max
-					minDate := existingDates[0]
-					maxDate := existingDates[0]
-					for _, d := range existingDates {
-						if d.Before(minDate) {
-							minDate = d
-						}
-						if d.After(maxDate) {
-							maxDate = d
-						}
-					}
-					tsvStart := events[0].Start.Format("2006-01-02")
-					tsvEnd := events[len(events)-1].Start.Format("2006-01-02")
-					fmt.Printf("  Note: No matches found - existing DB shows are from different dates\n")
-					fmt.Printf("    TSV date range: %s to %s\n", tsvStart, tsvEnd)
-					fmt.Printf("    Existing DB shows: %s to %s\n", minDate.Format("2006-01-02"), maxDate.Format("2006-01-02"))
-				}
-			}
-		}
-		if errors > 0 {
-			fmt.Printf("  Errors: %d\n", errors)
+		fmt.Printf("  %s: %d\n", verb, inserted)
+		fmt.Printf("  %s: %d\n", verbU, updated)
+		fmt.Printf("  Unchanged: %d\n", skipped)
+		if errs > 0 {
+			fmt.Printf("  Errors: %d\n", errs)
 		}
 	}
 }

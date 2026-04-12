@@ -2,6 +2,7 @@ package showstore
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -360,6 +361,65 @@ SELECT EXISTS(
 	var exists bool
 	err := s.pool.QueryRow(ctx, q, start, summary).Scan(&exists)
 	return exists, err
+}
+
+// FindByDateAndSummary returns the existing show's uid, description, and teams if found.
+func (s *Store) FindByDateAndSummary(ctx context.Context, start *time.Time, summary string) (*icalplayers.Event, error) {
+	if start == nil {
+		return nil, nil
+	}
+	const q = `
+SELECT uid, description, teams
+FROM shows
+WHERE DATE(start) = DATE($1::TIMESTAMPTZ)
+  AND lower(regexp_replace(summary,  '[^a-zA-Z0-9 ]', '', 'g')) =
+      lower(regexp_replace($2::text, '[^a-zA-Z0-9 ]', '', 'g'))
+LIMIT 1
+`
+	var e icalplayers.Event
+	var teams []string
+	err := s.pool.QueryRow(ctx, q, start, summary).Scan(&e.UID, &e.Description, &teams)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, nil
+		}
+		return nil, err
+	}
+	e.Teams = teams
+	return &e, nil
+}
+
+// UpdateDescriptionAndTeams updates an existing show's description and teams by UID.
+func (s *Store) UpdateDescriptionAndTeams(ctx context.Context, uid, description string, teams []string, teamIDs []string) error {
+	tx, err := s.pool.BeginTx(ctx, pgx.TxOptions{})
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback(ctx)
+		}
+	}()
+
+	// Union incoming teams with existing ones so DB teams are never removed.
+	const q = `
+UPDATE shows
+SET description = $1,
+    teams       = (SELECT ARRAY(SELECT DISTINCT unnest(teams || $2::text[]))),
+    updated_at  = NOW()
+WHERE uid = $3
+`
+	_, err = tx.Exec(ctx, q, description, strSliceToTextArray(teams), uid)
+	if err != nil {
+		return err
+	}
+
+	// syncShowTeams uses ON CONFLICT DO NOTHING, so existing rows are preserved.
+	if err = syncShowTeams(ctx, tx, uid, teamIDs); err != nil {
+		return err
+	}
+
+	return tx.Commit(ctx)
 }
 
 // InsertIfNew inserts a show only if no show exists with the same date and summary.

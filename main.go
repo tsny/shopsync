@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"sort"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -150,21 +151,44 @@ func main() {
 	if *wpURL != "" {
 		// Use InsertIfNew to avoid overwriting or duplicating events already imported via ICS.
 		// Deduplication is by (date, summary) so collisions across different source IDs are caught.
-		inserted := 0
-		skipped := 0
+		var inserted, updated, skipped int
 		for _, e := range events {
-			ok, err := store.InsertIfNew(ctx, e)
+			existing, err := store.FindByDateAndSummary(ctx, e.Start, e.Summary)
 			if err != nil {
 				exitErr(err)
 			}
-			if ok {
-				inserted++
-			} else {
-				skipped++
-				fmt.Printf("Skipped duplicate: %s (%s)\n", e.Summary, e.Start)
+			if existing == nil {
+				ok, err := store.InsertIfNew(ctx, e)
+				if err != nil {
+					exitErr(err)
+				}
+				if ok {
+					inserted++
+					fmt.Printf("Inserted: %s (%s)\n", e.Summary, e.Start)
+				}
+				continue
 			}
+			descChanged := existing.Description != e.Description
+			teamsChanged := !teamsEqualSorted(existing.Teams, e.Teams)
+			if !descChanged && !teamsChanged {
+				skipped++
+				fmt.Printf("Unchanged: %s (%s)\n", e.Summary, e.Start)
+				continue
+			}
+			fmt.Printf("Updating: %s (%s)\n", e.Summary, e.Start)
+			if descChanged {
+				fmt.Printf("  description: %q\n            -> %q\n",
+					truncateStr(existing.Description, 80), truncateStr(e.Description, 80))
+			}
+			if teamsChanged {
+				fmt.Printf("  teams: %v -> %v\n", existing.Teams, e.Teams)
+			}
+			if err := store.UpdateDescriptionAndTeams(ctx, existing.UID, e.Description, e.Teams, e.TeamIDs); err != nil {
+				exitErr(err)
+			}
+			updated++
 		}
-		fmt.Printf("Inserted %d new events, skipped %d duplicates.\n", inserted, skipped)
+		fmt.Printf("Inserted %d, updated %d, unchanged %d.\n", inserted, updated, skipped)
 	} else {
 		for _, e := range events {
 			if err := store.Upsert(ctx, e); err != nil {
@@ -173,6 +197,30 @@ func main() {
 		}
 		fmt.Printf("Stored %d events.\n", len(events))
 	}
+}
+
+func truncateStr(s string, n int) string {
+	if len(s) <= n {
+		return s
+	}
+	return s[:n] + "..."
+}
+
+func teamsEqualSorted(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	ac, bc := make([]string, len(a)), make([]string, len(b))
+	copy(ac, a)
+	copy(bc, b)
+	sort.Strings(ac)
+	sort.Strings(bc)
+	for i := range ac {
+		if ac[i] != bc[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func isURL(s string) bool {
