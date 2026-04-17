@@ -363,13 +363,13 @@ SELECT EXISTS(
 	return exists, err
 }
 
-// FindByDateAndSummary returns the existing show's uid, description, and teams if found.
+// FindByDateAndSummary returns the existing show's uid, description, teams, and post_image_url if found.
 func (s *Store) FindByDateAndSummary(ctx context.Context, start *time.Time, summary string) (*icalplayers.Event, error) {
 	if start == nil {
 		return nil, nil
 	}
 	const q = `
-SELECT uid, description, teams
+SELECT uid, description, teams, COALESCE(post_image_url, '')
 FROM shows
 WHERE DATE(start) = DATE($1::TIMESTAMPTZ)
   AND lower(regexp_replace(summary,  '[^a-zA-Z0-9 ]', '', 'g')) =
@@ -378,7 +378,7 @@ LIMIT 1
 `
 	var e icalplayers.Event
 	var teams []string
-	err := s.pool.QueryRow(ctx, q, start, summary).Scan(&e.UID, &e.Description, &teams)
+	err := s.pool.QueryRow(ctx, q, start, summary).Scan(&e.UID, &e.Description, &teams, &e.PostImageURL)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil

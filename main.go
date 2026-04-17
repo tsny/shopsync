@@ -170,7 +170,8 @@ func main() {
 			}
 			descChanged := existing.Description != e.Description
 			teamsChanged := !teamsEqualSorted(existing.Teams, e.Teams)
-			if !descChanged && !teamsChanged {
+			imageChanged := e.PostImageURL != "" && existing.PostImageURL != e.PostImageURL
+			if !descChanged && !teamsChanged && !imageChanged {
 				skipped++
 				fmt.Printf("Unchanged: %s (%s)\n", e.Summary, e.Start)
 				continue
@@ -183,8 +184,18 @@ func main() {
 			if teamsChanged {
 				fmt.Printf("  teams: %v -> %v\n", existing.Teams, e.Teams)
 			}
-			if err := store.UpdateDescriptionAndTeams(ctx, existing.UID, e.Description, e.Teams, e.TeamIDs); err != nil {
-				exitErr(err)
+			if imageChanged {
+				fmt.Printf("  image: %s -> %s\n", existing.PostImageURL, e.PostImageURL)
+			}
+			if descChanged || teamsChanged {
+				if err := store.UpdateDescriptionAndTeams(ctx, existing.UID, e.Description, e.Teams, e.TeamIDs); err != nil {
+					exitErr(err)
+				}
+			}
+			if imageChanged {
+				if err := store.UpdateShowImageURL(ctx, existing.UID, e.PostImageURL); err != nil {
+					exitErr(err)
+				}
 			}
 			updated++
 		}
