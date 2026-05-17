@@ -141,10 +141,13 @@ ON CONFLICT (show_uid, team_id) DO NOTHING
 // Helper: TEXT[] wants []string; pgx will map it automatically.
 // This wrapper exists in case you want to pre-normalize.
 func strSliceToTextArray(in []string) []string {
-	if in == nil {
-		return []string{}
+	out := make([]string, 0, len(in))
+	for _, s := range in {
+		if s != "" {
+			out = append(out, s)
+		}
 	}
-	return in
+	return out
 }
 
 func (s *Store) GetAllTeams(ctx context.Context) ([]Team, error) {
@@ -407,7 +410,7 @@ func (s *Store) UpdateDescriptionAndTeams(ctx context.Context, uid, description 
 	const q = `
 UPDATE shows
 SET description = $1,
-    teams       = (SELECT ARRAY(SELECT DISTINCT unnest(teams || $2::text[]))),
+    teams       = (SELECT ARRAY(SELECT DISTINCT unnest(teams || $2::text[]) AS t WHERE t IS NOT NULL AND t <> '')),
     updated_at  = NOW()
 WHERE uid = $3
 `
