@@ -141,7 +141,9 @@ ON CONFLICT (show_uid, team_id) DO NOTHING
 // Helper: TEXT[] wants []string; pgx will map it automatically.
 // This wrapper exists in case you want to pre-normalize.
 func strSliceToTextArray(in []string) []string {
-	// Optionally trim/unique here.
+	if in == nil {
+		return []string{}
+	}
 	return in
 }
 
