@@ -410,7 +410,7 @@ func (s *Store) UpdateDescriptionAndTeams(ctx context.Context, uid, description 
 	const q = `
 UPDATE shows
 SET description = $1,
-    teams       = (SELECT ARRAY(SELECT DISTINCT unnest(teams || $2::text[]) AS t WHERE t IS NOT NULL AND t <> '')),
+    teams       = (SELECT ARRAY(SELECT DISTINCT t FROM unnest(teams || $2::text[]) AS t WHERE t IS NOT NULL AND t <> '')),
     updated_at  = NOW()
 WHERE uid = $3
 `

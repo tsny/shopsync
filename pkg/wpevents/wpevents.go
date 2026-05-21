@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"html"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 	"time"
@@ -78,6 +79,32 @@ func FetchAll(ctx context.Context, baseURL string) ([]icalplayers.Event, error) 
 
 	fmt.Printf("Fetched %d WP events total.\n", len(all))
 	return all, nil
+}
+
+// SaveCache writes events to a JSON file for later use with LoadCache.
+func SaveCache(path string, events []icalplayers.Event) error {
+	f, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	enc := json.NewEncoder(f)
+	enc.SetIndent("", "  ")
+	return enc.Encode(events)
+}
+
+// LoadCache reads events from a JSON file previously written by SaveCache.
+func LoadCache(path string) ([]icalplayers.Event, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	var events []icalplayers.Event
+	if err := json.NewDecoder(f).Decode(&events); err != nil {
+		return nil, err
+	}
+	return events, nil
 }
 
 func fetchPage(ctx context.Context, url string) (*apiResponse, error) {

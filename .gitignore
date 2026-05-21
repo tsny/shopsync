@@ -31,3 +31,4 @@ go.sum # Typically committed, but can be ignored in specific scenarios
 tmp/
 
 shopsync
+wp_events_cache.json

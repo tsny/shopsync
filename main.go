@@ -25,6 +25,7 @@ import (
 func main() {
 	src := flag.String("src", "", "Path or URL to an .ics file. Use '-' to read from stdin")
 	wpURL := flag.String("wp", "", "URL to WordPress tribe/events API (e.g. https://theimprovshop.com/wp-json/tribe/events/v1/events)")
+	wpCache := flag.String("wp-cache", "", "Path to cached WP events JSON; skips live fetch when set")
 	postURL := flag.String("post-url", "", "testing param: grabs image from given post URL")
 	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
 	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
@@ -61,11 +62,25 @@ func main() {
 
 	var events []icalplayers.Event
 
-	if *wpURL != "" {
+	const defaultWPCacheFile = "wp_events_cache.json"
+
+	if *wpCache != "" {
+		fmt.Printf("Loading WP events from cache: %s\n", *wpCache)
+		events, err = wpevents.LoadCache(*wpCache)
+		if err != nil {
+			exitErr(fmt.Errorf("wp cache load: %w", err))
+		}
+		fmt.Printf("Loaded %d events from cache.\n", len(events))
+	} else if *wpURL != "" {
 		// Fetch events from the WordPress tribe/events API
 		events, err = wpevents.FetchAll(ctx, *wpURL)
 		if err != nil {
 			exitErr(fmt.Errorf("wp fetch: %w", err))
+		}
+		if err = wpevents.SaveCache(defaultWPCacheFile, events); err != nil {
+			fmt.Fprintf(os.Stderr, "warning: could not save WP cache: %v\n", err)
+		} else {
+			fmt.Printf("Saved WP events cache to %s\n", defaultWPCacheFile)
 		}
 	} else {
 		var calendarURL string
@@ -148,7 +163,7 @@ func main() {
 		return
 	}
 
-	if *wpURL != "" {
+	if *wpURL != "" || *wpCache != "" {
 		// Use InsertIfNew to avoid overwriting or duplicating events already imported via ICS.
 		// Deduplication is by (date, summary) so collisions across different source IDs are caught.
 		var inserted, updated, skipped int
