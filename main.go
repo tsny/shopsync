@@ -30,6 +30,7 @@ func main() {
 	skipImageSearch := flag.Bool("skip-image-search", false, "If set, do not attempt to fetch post images")
 	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
 	dryRun := flag.Bool("dry-run", true, "If set, do not store events in the database")
+	printSummary := flag.Bool("summary", false, "If set, print a summary of events after parsing")
 	flag.Parse()
 
 	if *skipImageSearch {
@@ -156,7 +157,9 @@ func main() {
 		}
 	}
 
-	icalplayers.SummarizeEvents(events)
+	if *printSummary {
+		icalplayers.SummarizeEvents(events)
+	}
 
 	if *dryRun {
 		fmt.Println("Dry run; not storing events.")
@@ -180,8 +183,10 @@ func main() {
 				if ok {
 					inserted++
 					fmt.Printf("Inserted: %s (%s)\n", e.Summary, e.Start)
-					continue
+				} else {
+					fmt.Printf("%v already exists, skipping insert: %s (%s)\n", e.Start, e.Summary, e.UID)
 				}
+				continue
 			}
 			descChanged := existing.Description != e.Description
 			teamsChanged := !teamsEqualSorted(existing.Teams, e.Teams)

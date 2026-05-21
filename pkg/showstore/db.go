@@ -358,7 +358,7 @@ func (s *Store) ExistsByDateAndSummary(ctx context.Context, start *time.Time, su
 	const q = `
 SELECT EXISTS(
   SELECT 1 FROM shows
-  WHERE DATE(start) = DATE($1::TIMESTAMPTZ)
+  WHERE start BETWEEN ($1::TIMESTAMPTZ - INTERVAL '12 hours') AND ($1::TIMESTAMPTZ + INTERVAL '12 hours')
     AND lower(regexp_replace(summary,     '[^a-zA-Z0-9 ]', '', 'g')) =
         lower(regexp_replace($2::text,    '[^a-zA-Z0-9 ]', '', 'g'))
 )
@@ -376,7 +376,7 @@ func (s *Store) FindByDateAndSummary(ctx context.Context, start *time.Time, summ
 	const q = `
 SELECT uid, description, teams, COALESCE(post_image_url, '')
 FROM shows
-WHERE DATE(start) = DATE($1::TIMESTAMPTZ)
+WHERE start BETWEEN ($1::TIMESTAMPTZ - INTERVAL '12 hours') AND ($1::TIMESTAMPTZ + INTERVAL '12 hours')
   AND lower(regexp_replace(summary,  '[^a-zA-Z0-9 ]', '', 'g')) =
       lower(regexp_replace($2::text, '[^a-zA-Z0-9 ]', '', 'g'))
 LIMIT 1
