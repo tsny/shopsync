@@ -180,6 +180,9 @@ func main() {
 				if ok {
 					inserted++
 					fmt.Printf("Inserted: %s (%s)\n", e.Summary, e.Start)
+				} else {
+					fmt.Printf("Skipped (already exists): %s (%s)\n", e.Summary, e.Start)
+					skipped++
 				}
 				continue
 			}
