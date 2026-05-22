@@ -14,6 +14,8 @@ import (
 	"sort"
 	"strings"
 
+	_ "time/tzdata"
+
 	"github.com/PuerkitoBio/goquery"
 	"github.com/joho/godotenv"
 	"github.com/tsny/shopsync/pkg/icalplayers"
