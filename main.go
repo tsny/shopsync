@@ -11,8 +11,10 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"sort"
 	"strings"
+	"time"
 
 	_ "time/tzdata"
 
@@ -222,6 +224,31 @@ func main() {
 			updated++
 		}
 		fmt.Printf("Inserted %d, updated %d, unchanged %d.\n", inserted, updated, skipped)
+
+		// Delete upcoming DB shows that no longer appear in the fetched WP events.
+		upcoming, err := store.GetUpcomingShows(ctx)
+		if err != nil {
+			exitErr(fmt.Errorf("get upcoming shows: %w", err))
+		}
+		var deleted int
+		for _, dbShow := range upcoming {
+			if dbShow.Start == nil {
+				continue
+			}
+			if matchesAny(dbShow, events) {
+				continue
+			}
+			fmt.Printf("Deleting stale show: %s (%s)\n", dbShow.Summary, dbShow.Start)
+			if !*dryRun {
+				if err := store.DeleteShow(ctx, dbShow.UID); err != nil {
+					exitErr(fmt.Errorf("delete show %s: %w", dbShow.UID, err))
+				}
+			}
+			deleted++
+		}
+		if deleted > 0 {
+			fmt.Printf("Deleted %d stale show(s).\n", deleted)
+		}
 	} else {
 		for _, e := range events {
 			if err := store.Upsert(ctx, e); err != nil {
@@ -230,6 +257,31 @@ func main() {
 		}
 		fmt.Printf("Stored %d events.\n", len(events))
 	}
+}
+
+var nonAlphanumRe = regexp.MustCompile(`[^a-zA-Z0-9 ]`)
+
+func normalizeTitle(s string) string {
+	return strings.ToLower(nonAlphanumRe.ReplaceAllString(s, ""))
+}
+
+// matchesAny reports whether dbShow has a counterpart in candidates by
+// matching the same (date ±12h, normalized summary) rule used in FindByDateAndSummary.
+func matchesAny(dbShow icalplayers.Event, candidates []icalplayers.Event) bool {
+	norm := normalizeTitle(dbShow.Summary)
+	for _, c := range candidates {
+		if c.Start == nil {
+			continue
+		}
+		diff := dbShow.Start.Sub(*c.Start)
+		if diff < 0 {
+			diff = -diff
+		}
+		if diff <= 12*time.Hour && normalizeTitle(c.Summary) == norm {
+			return true
+		}
+	}
+	return false
 }
 
 func truncateStr(s string, n int) string {

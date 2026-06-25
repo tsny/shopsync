@@ -427,6 +427,39 @@ WHERE uid = $3
 	return tx.Commit(ctx)
 }
 
+// GetUpcomingShows returns all shows with a start time in the future.
+func (s *Store) GetUpcomingShows(ctx context.Context) ([]icalplayers.Event, error) {
+	const q = `
+SELECT uid, summary, description, start, players
+FROM shows
+WHERE start > NOW()
+ORDER BY start;
+`
+	rows, err := s.pool.Query(ctx, q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []icalplayers.Event
+	for rows.Next() {
+		var e icalplayers.Event
+		var players []string
+		if err := rows.Scan(&e.UID, &e.Summary, &e.Description, &e.Start, &players); err != nil {
+			return nil, err
+		}
+		e.Players = players
+		out = append(out, e)
+	}
+	return out, rows.Err()
+}
+
+// DeleteShow deletes a show by UID. show_teams rows are removed via ON DELETE CASCADE.
+func (s *Store) DeleteShow(ctx context.Context, uid string) error {
+	_, err := s.pool.Exec(ctx, `DELETE FROM shows WHERE uid = $1`, uid)
+	return err
+}
+
 // InsertIfNew inserts a show only if no show exists with the same date and summary.
 // Returns (inserted bool, error).
 func (s *Store) InsertIfNew(ctx context.Context, e icalplayers.Event) (bool, error) {
