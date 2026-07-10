@@ -270,6 +270,36 @@ ORDER BY start NULLS LAST;
 	return out, nil
 }
 
+// GetShowsWithExternalImageURL returns shows whose post_image_url is set but
+// does not point to the GCS bucket (i.e. still an external/WordPress CDN URL).
+func (s *Store) GetShowsWithExternalImageURL(ctx context.Context) ([]ShowWithImageURL, error) {
+	const q = `
+SELECT uid, summary, post_image_url
+FROM shows
+WHERE post_image_url IS NOT NULL
+  AND post_image_url <> ''
+  AND post_image_url NOT LIKE '%storage.googleapis.com/improv-wiki-teams%'
+ORDER BY start NULLS LAST;
+`
+	rows, err := s.pool.Query(ctx, q)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var out []ShowWithImageURL
+	for rows.Next() {
+		var show ShowWithImageURL
+		var postImageURL *string
+		if err := rows.Scan(&show.UID, &show.Summary, &postImageURL); err != nil {
+			return nil, err
+		}
+		show.PostImageURL = postImageURL
+		out = append(out, show)
+	}
+	return out, rows.Err()
+}
+
 // UpdateShowImageURL updates the post_image_url for a show by its UID
 func (s *Store) UpdateShowImageURL(ctx context.Context, uid, imageURL string) error {
 	const q = `

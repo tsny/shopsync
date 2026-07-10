@@ -18,9 +18,11 @@ import (
 
 	_ "time/tzdata"
 
+	"cloud.google.com/go/storage"
 	"github.com/PuerkitoBio/goquery"
 	"github.com/joho/godotenv"
 	"github.com/tsny/shopsync/pkg/icalplayers"
+	"github.com/tsny/shopsync/pkg/imgproc"
 	"github.com/tsny/shopsync/pkg/showstore"
 	"github.com/tsny/shopsync/pkg/wpevents"
 	"github.com/tsny/shopsync/pkg/wpimg"
@@ -35,6 +37,8 @@ func main() {
 	useTeamsFile := flag.Bool("use-teams-file", false, "If set, parse teams from teams.txt and match to events")
 	dryRun := flag.Bool("dry-run", true, "If set, do not store events in the database")
 	printSummary := flag.Bool("summary", false, "If set, print a summary of events after parsing")
+	gcsBucket := flag.String("gcs-bucket", "improv-wiki-teams", "GCS bucket for converted WebP images")
+	gcsPrefix := flag.String("gcs-prefix", "shows/res/", "GCS object prefix for uploaded images")
 	flag.Parse()
 
 	if *skipImageSearch {
@@ -142,6 +146,7 @@ func main() {
 	for i, ev := range events {
 		parsedTeams := findTeamsInEventDescription(ev.Description, teams)
 		if len(parsedTeams) > 0 {
+			fmt.Printf("%v: %v\n", ev.Summary, parsedTeams)
 			for _, t := range parsedTeams {
 				if t.ID == "" {
 					fmt.Printf("Skipping team with empty ID: %s\n", t.Name)
@@ -170,6 +175,15 @@ func main() {
 		return
 	}
 
+	var gcs *storage.Client
+	gcs, err = storage.NewClient(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "warning: GCS client init failed (%v); images will not be uploaded\n", err)
+		gcs = nil
+	} else {
+		defer gcs.Close()
+	}
+
 	if *wpURL != "" || *wpCache != "" {
 		// Use InsertIfNew to avoid overwriting or duplicating events already imported via ICS.
 		// Deduplication is by (date, summary) so collisions across different source IDs are caught.
@@ -180,6 +194,10 @@ func main() {
 				exitErr(err)
 			}
 			if existing == nil {
+				// New event: convert and upload image to GCS before inserting.
+				if e.PostImageURL != "" && gcs != nil {
+					e.PostImageURL = toGCSImage(ctx, gcs, e.PostImageURL, e.UID, *gcsBucket, *gcsPrefix)
+				}
 				ok, err := store.InsertIfNew(ctx, e)
 				if err != nil {
 					exitErr(err)
@@ -194,8 +212,27 @@ func main() {
 			}
 			descChanged := existing.Description != e.Description
 			teamsChanged := !teamsEqualSorted(existing.Teams, e.Teams)
-			imageChanged := e.PostImageURL != "" && existing.PostImageURL != e.PostImageURL
-			if !descChanged && !teamsChanged && !imageChanged {
+			// If the incoming image differs, upload it; otherwise ensure the
+			// stored image is already in GCS (migrate it if not).
+			imageNeedsUpdate := false
+			if gcs != nil {
+				if e.PostImageURL != "" && existing.PostImageURL != e.PostImageURL {
+					e.PostImageURL = toGCSImage(ctx, gcs, e.PostImageURL, existing.UID, *gcsBucket, *gcsPrefix)
+					imageNeedsUpdate = e.PostImageURL != existing.PostImageURL
+				} else if existing.PostImageURL != "" && !imgproc.IsGCSURL(existing.PostImageURL, *gcsBucket) {
+					newURL := toGCSImage(ctx, gcs, existing.PostImageURL, existing.UID, *gcsBucket, *gcsPrefix)
+					if newURL != existing.PostImageURL {
+						if err := store.UpdateShowImageURL(ctx, existing.UID, newURL); err != nil {
+							fmt.Fprintf(os.Stderr, "  image db update error: %v\n", err)
+						} else {
+							fmt.Printf("  Migrated image to GCS: %s\n", existing.Summary)
+						}
+					}
+				}
+			} else {
+				imageNeedsUpdate = e.PostImageURL != "" && existing.PostImageURL != e.PostImageURL
+			}
+			if !descChanged && !teamsChanged && !imageNeedsUpdate {
 				skipped++
 				fmt.Printf("Unchanged: %s (%s)\n", e.Summary, e.Start)
 				continue
@@ -208,7 +245,7 @@ func main() {
 			if teamsChanged {
 				fmt.Printf("  teams: %v -> %v\n", existing.Teams, e.Teams)
 			}
-			if imageChanged {
+			if imageNeedsUpdate {
 				fmt.Printf("  image: %s -> %s\n", existing.PostImageURL, e.PostImageURL)
 			}
 			if descChanged || teamsChanged {
@@ -216,7 +253,7 @@ func main() {
 					exitErr(err)
 				}
 			}
-			if imageChanged {
+			if imageNeedsUpdate {
 				if err := store.UpdateShowImageURL(ctx, existing.UID, e.PostImageURL); err != nil {
 					exitErr(err)
 				}
@@ -326,7 +363,6 @@ func findTeamsInEventDescription(desc string, teams []showstore.Team) []showstor
 			continue
 		}
 		if strings.Contains(desc, t.Name) {
-			fmt.Println(t.Name)
 			matches = append(matches, t)
 		}
 	}
@@ -350,6 +386,22 @@ func ReadLinesToArray(path string) ([]string, error) {
 		return nil, err
 	}
 	return lines, nil
+}
+
+// toGCSImage converts an external image URL to WebP, uploads it to GCS, and
+// returns the new GCS URL. Falls back to the original URL on any error.
+func toGCSImage(ctx context.Context, gcs *storage.Client, imageURL, uid, bucket, prefix string) string {
+	if imgproc.IsGCSURL(imageURL, bucket) {
+		return imageURL
+	}
+	object := prefix + uid + ".webp"
+	gcsURL, err := imgproc.ConvertAndUpload(ctx, gcs, imageURL, bucket, object)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "  image upload failed for %s: %v\n", uid, err)
+		return imageURL
+	}
+	fmt.Printf("  Uploaded image to GCS: %s\n", gcsURL)
+	return gcsURL
 }
 
 // extractGoogleCalendarURL fetches the page and extracts the calendar URL from the Google Calendar link
