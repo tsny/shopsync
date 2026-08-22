@@ -275,6 +275,10 @@ func main() {
 			if matchesAny(dbShow, events) {
 				continue
 			}
+			// Manually-added shows never appear in WP events; keep them.
+			if strings.Contains(strings.ToLower(dbShow.Description), "manual add") {
+				continue
+			}
 			fmt.Printf("Deleting stale show: %s (%s)\n", dbShow.Summary, dbShow.Start)
 			if !*dryRun {
 				if err := store.DeleteShow(ctx, dbShow.UID); err != nil {
