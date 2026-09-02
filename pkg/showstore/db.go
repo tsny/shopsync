@@ -150,10 +150,13 @@ func strSliceToTextArray(in []string) []string {
 	return out
 }
 
+// GetAllTeams returns only active teams; a team with a dissolutionDate set is
+// considered inactive and is not eligible to be added to upcoming shows.
 func (s *Store) GetAllTeams(ctx context.Context) ([]Team, error) {
 	const q = `
 SELECT name, id
 FROM "Team"
+WHERE "dissolutionDate" IS NULL
 `
 	rows, err := s.pool.Query(ctx, q)
 	if err != nil {
