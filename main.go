@@ -69,6 +69,19 @@ func main() {
 	}
 	defer store.Close()
 
+	if err := store.MigrateSyncRuns(ctx); err != nil {
+		exitErr(fmt.Errorf("migrate sync_runs: %w", err))
+	}
+	syncStore = store
+	syncRun = &showstore.SyncRun{StartedAt: time.Now(), DryRun: *dryRun, Source: "ics"}
+	switch {
+	case *wpCache != "":
+		syncRun.Source = "wp-cache"
+	case *wpURL != "":
+		syncRun.Source = "wp"
+	}
+	defer finishSyncRun(nil)
+
 	var events []icalplayers.Event
 
 	const defaultWPCacheFile = "wp_events_cache.json"
@@ -121,6 +134,8 @@ func main() {
 		}
 	}
 
+	syncRun.EventsFetched = len(events)
+
 	if len(events) == 0 {
 		fmt.Println("No events found")
 		return
@@ -146,6 +161,7 @@ func main() {
 	for i, ev := range events {
 		parsedTeams := findTeamsInEventDescription(ev.Description, teams)
 		if len(parsedTeams) > 0 {
+			syncRun.EventsWithTeams++
 			fmt.Printf("%v: %v\n", ev.Summary, parsedTeams)
 			for _, t := range parsedTeams {
 				if t.ID == "" {
@@ -261,6 +277,7 @@ func main() {
 			updated++
 		}
 		fmt.Printf("Inserted %d, updated %d, unchanged %d.\n", inserted, updated, skipped)
+		syncRun.Inserted, syncRun.Updated, syncRun.Unchanged = inserted, updated, skipped
 
 		// Delete upcoming DB shows that no longer appear in the fetched WP events.
 		upcoming, err := store.GetUpcomingShows(ctx)
@@ -290,6 +307,7 @@ func main() {
 		if deleted > 0 {
 			fmt.Printf("Deleted %d stale show(s).\n", deleted)
 		}
+		syncRun.Deleted = deleted
 	} else {
 		for _, e := range events {
 			if err := store.Upsert(ctx, e); err != nil {
@@ -297,6 +315,7 @@ func main() {
 			}
 		}
 		fmt.Printf("Stored %d events.\n", len(events))
+		syncRun.Updated = len(events)
 	}
 }
 
@@ -354,8 +373,34 @@ func isURL(s string) bool {
 	return err == nil && u.Scheme != "" && u.Host != ""
 }
 
+// Metrics for the current run. Nil until the store is open.
+var (
+	syncStore *showstore.Store
+	syncRun   *showstore.SyncRun
+)
+
+// finishSyncRun records the current run once. A nil err marks it successful.
+func finishSyncRun(err error) {
+	if syncRun == nil {
+		return
+	}
+	run := *syncRun
+	syncRun = nil
+
+	run.FinishedAt = time.Now()
+	run.Status = "success"
+	if err != nil {
+		run.Status = "error"
+		run.Error = err.Error()
+	}
+	if rerr := syncStore.RecordSyncRun(context.Background(), run); rerr != nil {
+		fmt.Fprintf(os.Stderr, "warning: could not record sync run: %v\n", rerr)
+	}
+}
+
 func exitErr(err error) {
 	fmt.Fprintln(os.Stderr, "error:", err)
+	finishSyncRun(err)
 	os.Exit(1)
 }
 
@@ -402,7 +447,13 @@ func toGCSImage(ctx context.Context, gcs *storage.Client, imageURL, uid, bucket,
 	gcsURL, err := imgproc.ConvertAndUpload(ctx, gcs, imageURL, bucket, object)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "  image upload failed for %s: %v\n", uid, err)
+		if syncRun != nil {
+			syncRun.ImageFailures++
+		}
 		return imageURL
+	}
+	if syncRun != nil {
+		syncRun.ImagesUploaded++
 	}
 	fmt.Printf("  Uploaded image to GCS: %s\n", gcsURL)
 	return gcsURL
