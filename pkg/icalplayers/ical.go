@@ -94,7 +94,6 @@ func FromReader(r io.Reader, dict *NameDict) ([]Event, error) {
 	}
 	evs := collectEvents(cal)
 	for i := range evs {
-		evs[i].Players = InferPlayerNames(evs[i].Description, dict)
 		if !SkipImageSearch {
 			postResult, _ := wpimg.Fetch(context.Background(), evs[i].URL)
 			if postResult.ImageURL != "" {
@@ -455,7 +454,6 @@ func SummarizeEvents(events []Event) {
 		if ev.Start != nil {
 			fmt.Printf("Start:       %s\n", ev.Start.Format(time.RFC3339))
 		}
-		// fmt.Printf("Players:   %v\n", ev.Players)
 		fmt.Printf("Description:\n%s\n", coalesce(ev.Description, "(none)"))
 		fmt.Printf("Teams:     %v\n", ev.Teams)
 		fmt.Printf("Team IDs:  %v\n", ev.TeamIDs)

@@ -84,15 +84,14 @@ func (s *Store) Upsert(ctx context.Context, e icalplayers.Event) error {
 	}()
 
 	const upsertShow = `
-INSERT INTO shows (uid, summary, description, url, post_image_url, start, players, teams, created_at, updated_at)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())
+INSERT INTO shows (uid, summary, description, url, post_image_url, start, teams, created_at, updated_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
 ON CONFLICT (uid) DO UPDATE
 SET summary        = EXCLUDED.summary,
     description    = EXCLUDED.description,
     url            = EXCLUDED.url,
     post_image_url = EXCLUDED.post_image_url,
     start          = EXCLUDED.start,
-    players        = EXCLUDED.players,
     teams          = EXCLUDED.teams,
     updated_at     = NOW();
 `
@@ -104,7 +103,6 @@ SET summary        = EXCLUDED.summary,
 		e.URL,
 		e.PostImageURL,
 		e.Start,
-		strSliceToTextArray(e.Players),
 		strSliceToTextArray(e.Teams),
 	)
 	if err != nil {
@@ -180,7 +178,7 @@ WHERE "dissolutionDate" IS NULL
 
 func (s *Store) GetAllShows(ctx context.Context) ([]icalplayers.Event, error) {
 	const q = `
-SELECT uid, summary, description, start, players
+SELECT uid, summary, description, start
 FROM shows
 ORDER BY start NULLS LAST;
 `
@@ -193,11 +191,9 @@ ORDER BY start NULLS LAST;
 	var out []icalplayers.Event
 	for rows.Next() {
 		var e icalplayers.Event
-		var players []string
-		if err := rows.Scan(&e.UID, &e.Summary, &e.Description, &e.Start, &players); err != nil {
+		if err := rows.Scan(&e.UID, &e.Summary, &e.Description, &e.Start); err != nil {
 			return nil, err
 		}
-		e.Players = players
 		out = append(out, e)
 	}
 	if rows.Err() != nil {
@@ -463,7 +459,7 @@ WHERE uid = $3
 // GetUpcomingShows returns all shows with a start time in the future.
 func (s *Store) GetUpcomingShows(ctx context.Context) ([]icalplayers.Event, error) {
 	const q = `
-SELECT uid, summary, description, start, players
+SELECT uid, summary, description, start
 FROM shows
 WHERE start > NOW()
 ORDER BY start;
@@ -477,11 +473,9 @@ ORDER BY start;
 	var out []icalplayers.Event
 	for rows.Next() {
 		var e icalplayers.Event
-		var players []string
-		if err := rows.Scan(&e.UID, &e.Summary, &e.Description, &e.Start, &players); err != nil {
+		if err := rows.Scan(&e.UID, &e.Summary, &e.Description, &e.Start); err != nil {
 			return nil, err
 		}
-		e.Players = players
 		out = append(out, e)
 	}
 	return out, rows.Err()
@@ -516,8 +510,8 @@ func (s *Store) InsertIfNew(ctx context.Context, e icalplayers.Event) (bool, err
 	}()
 
 	const insertShow = `
-INSERT INTO shows (uid, summary, description, url, post_image_url, start, players, teams, created_at, updated_at)
-VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW(), NOW())
+INSERT INTO shows (uid, summary, description, url, post_image_url, start, teams, created_at, updated_at)
+VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
 ON CONFLICT (uid) DO NOTHING
 `
 	result, err := tx.Exec(ctx, insertShow,
@@ -527,7 +521,6 @@ ON CONFLICT (uid) DO NOTHING
 		e.URL,
 		e.PostImageURL,
 		e.Start,
-		strSliceToTextArray(e.Players),
 		strSliceToTextArray(e.Teams),
 	)
 	if err != nil {
