@@ -33,8 +33,13 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+if ! command -v gcloud >/dev/null; then
+  echo "ERROR: gcloud not found on PATH"
+  exit 1
+fi
+
 if [[ -z "$PROJECT" ]]; then
-  PROJECT=$(gcloud config get-value project 2>/dev/null)
+  PROJECT=$(gcloud config get-value project 2>/dev/null || true)
   if [[ -z "$PROJECT" ]]; then
     echo "ERROR: set GCP_PROJECT or pass --project <project-id>"
     exit 1
