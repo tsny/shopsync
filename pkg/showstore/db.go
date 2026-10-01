@@ -397,22 +397,43 @@ SELECT EXISTS(
 	return exists, err
 }
 
-// FindByDateAndSummary returns the existing show's uid, description, teams, and post_image_url if found.
-func (s *Store) FindByDateAndSummary(ctx context.Context, start *time.Time, summary string) (*icalplayers.Event, error) {
+// FindByDateAndSummary returns the existing show's uid, description, teams,
+// post_image_url, and start if one matches summary within ±12h of start.
+// When several match, the one closest to start wins. UIDs in exclude are
+// skipped so callers can keep one DB row from matching two incoming events.
+func (s *Store) FindByDateAndSummary(ctx context.Context, start *time.Time, summary string, exclude ...string) (*icalplayers.Event, error) {
 	if start == nil {
 		return nil, nil
 	}
 	const q = `
-SELECT uid, description, teams, COALESCE(post_image_url, '')
+SELECT uid, summary, description, teams, COALESCE(post_image_url, ''), start
 FROM shows
 WHERE start BETWEEN ($1::TIMESTAMPTZ - INTERVAL '12 hours') AND ($1::TIMESTAMPTZ + INTERVAL '12 hours')
   AND lower(regexp_replace(summary,  '[^a-zA-Z0-9 ]', '', 'g')) =
       lower(regexp_replace($2::text, '[^a-zA-Z0-9 ]', '', 'g'))
+  AND NOT (uid = ANY($3::text[]))
+ORDER BY abs(extract(epoch FROM (start - $1::TIMESTAMPTZ))), uid
 LIMIT 1
 `
+	return scanMatch(s.pool.QueryRow(ctx, q, start, summary, strSliceToTextArray(exclude)))
+}
+
+// FindByUID returns the same fields as FindByDateAndSummary for the show with
+// the given uid, or nil if there is none.
+func (s *Store) FindByUID(ctx context.Context, uid string) (*icalplayers.Event, error) {
+	const q = `
+SELECT uid, summary, description, teams, COALESCE(post_image_url, ''), start
+FROM shows
+WHERE uid = $1 AND start IS NOT NULL
+`
+	return scanMatch(s.pool.QueryRow(ctx, q, uid))
+}
+
+func scanMatch(row pgx.Row) (*icalplayers.Event, error) {
 	var e icalplayers.Event
 	var teams []string
-	err := s.pool.QueryRow(ctx, q, start, summary).Scan(&e.UID, &e.Description, &teams, &e.PostImageURL)
+	var st time.Time
+	err := row.Scan(&e.UID, &e.Summary, &e.Description, &teams, &e.PostImageURL, &st)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, nil
@@ -420,7 +441,15 @@ LIMIT 1
 		return nil, err
 	}
 	e.Teams = teams
+	e.Start = &st
 	return &e, nil
+}
+
+// UpdateShowStartAndSummary sets an existing show's start time and title by UID.
+func (s *Store) UpdateShowStartAndSummary(ctx context.Context, uid string, start time.Time, summary string) error {
+	const q = `UPDATE shows SET start = $1, summary = $2, updated_at = NOW() WHERE uid = $3`
+	_, err := s.pool.Exec(ctx, q, start, summary, uid)
+	return err
 }
 
 // UpdateDescriptionAndTeams updates an existing show's description and teams by UID.

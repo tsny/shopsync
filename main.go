@@ -201,14 +201,46 @@ func main() {
 	}
 
 	if *wpURL != "" || *wpCache != "" {
-		// Use InsertIfNew to avoid overwriting or duplicating events already imported via ICS.
-		// Deduplication is by (date, summary) so collisions across different source IDs are caught.
-		var inserted, updated, skipped int
-		for _, e := range events {
-			existing, err := store.FindByDateAndSummary(ctx, e.Start, e.Summary)
+		// Match incoming events to existing rows before changing anything.
+		// A row with the event's WP UID wins outright, however far the show
+		// moved or whatever it was renamed to. Rows imported via ICS or
+		// showtool have other UIDs, so fall back to (normalized summary,
+		// within ±12h); exact-time matches are claimed first so that when the
+		// source moves a show's time, a same-named show on the same day can't
+		// steal its row. New events go through InsertIfNew, which applies the
+		// same (date, summary) dedup.
+		existingFor := make([]*icalplayers.Event, len(events))
+		var claimed []string
+		for i, e := range events {
+			m, err := store.FindByUID(ctx, e.UID)
 			if err != nil {
 				exitErr(err)
 			}
+			if m != nil {
+				existingFor[i] = m
+				claimed = append(claimed, m.UID)
+			}
+		}
+		for _, exactOnly := range []bool{true, false} {
+			for i, e := range events {
+				if existingFor[i] != nil {
+					continue
+				}
+				m, err := store.FindByDateAndSummary(ctx, e.Start, e.Summary, claimed...)
+				if err != nil {
+					exitErr(err)
+				}
+				if m == nil || (exactOnly && !m.Start.Equal(*e.Start)) {
+					continue
+				}
+				existingFor[i] = m
+				claimed = append(claimed, m.UID)
+			}
+		}
+
+		var inserted, updated, skipped int
+		for i, e := range events {
+			existing := existingFor[i]
 			if existing == nil {
 				// New event: convert and upload image to GCS before inserting.
 				if e.PostImageURL != "" && gcs != nil {
@@ -226,6 +258,10 @@ func main() {
 				}
 				continue
 			}
+			// The source is authoritative for start times; they get edited after posting.
+			timeChanged := e.Start != nil && !existing.Start.Equal(*e.Start)
+			// Only a UID match can differ beyond punctuation/case; leave those alone.
+			renamed := normalizeTitle(existing.Summary) != normalizeTitle(e.Summary)
 			descChanged := existing.Description != e.Description
 			teamsChanged := !teamsEqualSorted(existing.Teams, e.Teams)
 			// If the incoming image differs, upload it; otherwise ensure the
@@ -248,12 +284,18 @@ func main() {
 			} else {
 				imageNeedsUpdate = e.PostImageURL != "" && existing.PostImageURL != e.PostImageURL
 			}
-			if !descChanged && !teamsChanged && !imageNeedsUpdate {
+			if !timeChanged && !renamed && !descChanged && !teamsChanged && !imageNeedsUpdate {
 				skipped++
 				fmt.Printf("Unchanged: %s (%s)\n", e.Summary, e.Start)
 				continue
 			}
 			fmt.Printf("Updating: %s (%s)\n", e.Summary, e.Start)
+			if timeChanged {
+				fmt.Printf("  start: %s -> %s\n", existing.Start, e.Start)
+			}
+			if renamed {
+				fmt.Printf("  summary: %q -> %q\n", existing.Summary, e.Summary)
+			}
 			if descChanged {
 				fmt.Printf("  description: %q\n            -> %q\n",
 					truncateStr(existing.Description, 80), truncateStr(e.Description, 80))
@@ -263,6 +305,18 @@ func main() {
 			}
 			if imageNeedsUpdate {
 				fmt.Printf("  image: %s -> %s\n", existing.PostImageURL, e.PostImageURL)
+			}
+			if timeChanged || renamed {
+				newStart, newSummary := *existing.Start, existing.Summary
+				if timeChanged {
+					newStart = *e.Start
+				}
+				if renamed {
+					newSummary = e.Summary
+				}
+				if err := store.UpdateShowStartAndSummary(ctx, existing.UID, newStart, newSummary); err != nil {
+					exitErr(err)
+				}
 			}
 			if descChanged || teamsChanged {
 				if err := store.UpdateDescriptionAndTeams(ctx, existing.UID, e.Description, e.Teams, e.TeamIDs); err != nil {
@@ -325,11 +379,14 @@ func normalizeTitle(s string) string {
 	return strings.ToLower(nonAlphanumRe.ReplaceAllString(s, ""))
 }
 
-// matchesAny reports whether dbShow has a counterpart in candidates by
-// matching the same (date ±12h, normalized summary) rule used in FindByDateAndSummary.
+// matchesAny reports whether dbShow has a counterpart in candidates, either by
+// UID or by the same (date ±12h, normalized summary) rule used in FindByDateAndSummary.
 func matchesAny(dbShow icalplayers.Event, candidates []icalplayers.Event) bool {
 	norm := normalizeTitle(dbShow.Summary)
 	for _, c := range candidates {
+		if c.UID == dbShow.UID {
+			return true
+		}
 		if c.Start == nil {
 			continue
 		}
