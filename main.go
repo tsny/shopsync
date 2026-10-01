@@ -203,12 +203,32 @@ func main() {
 	if *wpURL != "" || *wpCache != "" {
 		// Use InsertIfNew to avoid overwriting or duplicating events already imported via ICS.
 		// Deduplication is by (date, summary) so collisions across different source IDs are caught.
-		var inserted, updated, skipped int
-		for _, e := range events {
-			existing, err := store.FindByDateAndSummary(ctx, e.Start, e.Summary)
-			if err != nil {
-				exitErr(err)
+		// Match incoming events to existing rows (same normalized summary,
+		// within ±12h) before changing anything. Exact-time matches are claimed
+		// first so that when the source moves a show's time, a same-named show
+		// on the same day can't steal its row.
+		existingFor := make([]*icalplayers.Event, len(events))
+		var claimed []string
+		for _, exactOnly := range []bool{true, false} {
+			for i, e := range events {
+				if existingFor[i] != nil {
+					continue
+				}
+				m, err := store.FindByDateAndSummary(ctx, e.Start, e.Summary, claimed...)
+				if err != nil {
+					exitErr(err)
+				}
+				if m == nil || (exactOnly && !m.Start.Equal(*e.Start)) {
+					continue
+				}
+				existingFor[i] = m
+				claimed = append(claimed, m.UID)
 			}
+		}
+
+		var inserted, updated, skipped int
+		for i, e := range events {
+			existing := existingFor[i]
 			if existing == nil {
 				// New event: convert and upload image to GCS before inserting.
 				if e.PostImageURL != "" && gcs != nil {
@@ -226,6 +246,8 @@ func main() {
 				}
 				continue
 			}
+			// The source is authoritative for start times; they get edited after posting.
+			timeChanged := e.Start != nil && !existing.Start.Equal(*e.Start)
 			descChanged := existing.Description != e.Description
 			teamsChanged := !teamsEqualSorted(existing.Teams, e.Teams)
 			// If the incoming image differs, upload it; otherwise ensure the
@@ -248,12 +270,15 @@ func main() {
 			} else {
 				imageNeedsUpdate = e.PostImageURL != "" && existing.PostImageURL != e.PostImageURL
 			}
-			if !descChanged && !teamsChanged && !imageNeedsUpdate {
+			if !timeChanged && !descChanged && !teamsChanged && !imageNeedsUpdate {
 				skipped++
 				fmt.Printf("Unchanged: %s (%s)\n", e.Summary, e.Start)
 				continue
 			}
 			fmt.Printf("Updating: %s (%s)\n", e.Summary, e.Start)
+			if timeChanged {
+				fmt.Printf("  start: %s -> %s\n", existing.Start, e.Start)
+			}
 			if descChanged {
 				fmt.Printf("  description: %q\n            -> %q\n",
 					truncateStr(existing.Description, 80), truncateStr(e.Description, 80))
@@ -263,6 +288,11 @@ func main() {
 			}
 			if imageNeedsUpdate {
 				fmt.Printf("  image: %s -> %s\n", existing.PostImageURL, e.PostImageURL)
+			}
+			if timeChanged {
+				if err := store.UpdateShowStart(ctx, existing.UID, *e.Start); err != nil {
+					exitErr(err)
+				}
 			}
 			if descChanged || teamsChanged {
 				if err := store.UpdateDescriptionAndTeams(ctx, existing.UID, e.Description, e.Teams, e.TeamIDs); err != nil {
