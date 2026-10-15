@@ -5,6 +5,7 @@ package wpevents
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html"
 	"net/http"
@@ -66,7 +67,7 @@ func FetchAll(ctx context.Context, baseURL string) ([]icalplayers.Event, error) 
 
 	for nextURL != "" {
 		fmt.Printf("Fetching WP events page %d: %s\n", page, nextURL)
-		resp, err := fetchPage(ctx, nextURL)
+		resp, err := fetchPageWithRetry(ctx, nextURL)
 		if err != nil {
 			return nil, fmt.Errorf("page %d: %w", page, err)
 		}
@@ -107,6 +108,42 @@ func LoadCache(path string) ([]icalplayers.Event, error) {
 	return events, nil
 }
 
+const (
+	maxAttempts = 4
+	baseBackoff = 2 * time.Second
+)
+
+// retryableError marks failures worth retrying: network errors, 429, and 5xx.
+type retryableError struct{ err error }
+
+func (e retryableError) Error() string { return e.err.Error() }
+func (e retryableError) Unwrap() error { return e.err }
+
+// fetchPageWithRetry retries fetchPage with exponential backoff on transient failures.
+func fetchPageWithRetry(ctx context.Context, url string) (*apiResponse, error) {
+	var err error
+	for attempt := 1; attempt <= maxAttempts; attempt++ {
+		var resp *apiResponse
+		resp, err = fetchPage(ctx, url)
+		if err == nil {
+			return resp, nil
+		}
+		var re retryableError
+		if !errors.As(err, &re) || attempt == maxAttempts {
+			break
+		}
+
+		wait := baseBackoff << (attempt - 1)
+		fmt.Printf("  attempt %d failed (%v), retrying in %s\n", attempt, err, wait)
+		select {
+		case <-ctx.Done():
+			return nil, ctx.Err()
+		case <-time.After(wait):
+		}
+	}
+	return nil, err
+}
+
 func fetchPage(ctx context.Context, url string) (*apiResponse, error) {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
@@ -116,12 +153,19 @@ func fetchPage(ctx context.Context, url string) (*apiResponse, error) {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, err
+		if ctx.Err() != nil {
+			return nil, err
+		}
+		return nil, retryableError{err}
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("http status %d", resp.StatusCode)
+		err := fmt.Errorf("http status %d", resp.StatusCode)
+		if resp.StatusCode == http.StatusTooManyRequests || resp.StatusCode >= 500 {
+			return nil, retryableError{err}
+		}
+		return nil, err
 	}
 
 	var result apiResponse
